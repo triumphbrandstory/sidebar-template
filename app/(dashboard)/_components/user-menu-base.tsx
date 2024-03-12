@@ -8,16 +8,12 @@ import { ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 // import { signOut, useSession } from "next-auth/react";
 
-export function UserMenuBase({
-  className,
-}: {
-  className?: string | undefined;
-}) {
+export function UserMenuBase() {
   // const { data: session } = useSession();
 
   return (
     <Popover>
-      <PopoverTrigger className={`${className} group`}>
+      <PopoverTrigger className="group mx-12 mb-2 mt-12 flex items-center gap-2 self-end">
         <ChevronDownIcon
           size={20}
           className="text-lake-blue group-hover:brightness-90 group-data-[state=open]:rotate-180"

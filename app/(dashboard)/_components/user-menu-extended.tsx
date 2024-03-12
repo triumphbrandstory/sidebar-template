@@ -1,5 +1,6 @@
 "use client";
 import { ScubaIcon } from "@/assets/icons/ScubaIcon";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -62,15 +63,14 @@ export function UserMenuExtended({
                 for a confirmation email and data terms
               </small>
             </div>
-            <button
+            <Button
               onClick={
                 () => {}
                 // signOut()
               }
-              className="mr-2 inline-flex gap-1 self-end rounded-full border-2 border-lake-blue px-3 py-1 uppercase text-lake-blue hover:bg-lake-blue/75 hover:text-white"
             >
               logout
-            </button>
+            </Button>
           </div>
         </div>
       </PopoverContent>
