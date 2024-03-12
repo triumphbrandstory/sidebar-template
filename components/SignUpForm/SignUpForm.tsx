@@ -7,6 +7,7 @@ import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpFormSchema, type TSignUpFormSchema } from "./schema";
+import { Button } from "../ui/button";
 // import { signIn } from "next-auth/react";
 
 export function SignUpForm() {
@@ -70,52 +71,88 @@ export function SignUpForm() {
       if (signInResponse && signInResponse.ok && !signInResponse.error) {
         push("/my-lake");
       } else {
-        setError("root", { type: "login", message: `login: ${signInResponse?.error}` });
+        setError("root", {
+          type: "login",
+          message: `login: ${signInResponse?.error}`,
+        });
       }
     }
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 px-10 py-6" id="form-content">
+    <div
+      className="flex flex-col items-center gap-4 px-10 py-6"
+      id="form-content"
+    >
       <GoogleSignInButton />
       <span className="text-lake-blue">or</span>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-start space-y-5" id="form-inputs">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col items-start space-y-5"
+        id="form-inputs"
+      >
         <div className="flex w-full gap-2" id="name-input">
-          <label htmlFor="name" className="text-lake-blue uppercase">
+          <label htmlFor="name" className="uppercase text-lake-blue">
             name
           </label>
-          <input {...register("name")} type="text" id="name" className="bg-lake-gray-input text-lake-blue flex-1 px-1" />
+          <input
+            {...register("name")}
+            type="text"
+            id="name"
+            className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
+          />
         </div>
-        {errors.name && <p className="text-xs uppercase text-red-700">{`${errors.name.message}`}</p>}
+        {errors.name && (
+          <p className="text-xs uppercase text-red-700">{`${errors.name.message}`}</p>
+        )}
         <div className="flex w-full gap-2" id="email-input">
-          <label htmlFor="email" className="text-lake-blue uppercase">
+          <label htmlFor="email" className="uppercase text-lake-blue">
             e-mail
           </label>
-          <input {...register("email")} type="email" id="email" className="bg-lake-gray-input text-lake-blue flex-1 px-1" />
+          <input
+            {...register("email")}
+            type="email"
+            id="email"
+            className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
+          />
         </div>
-        {errors.email && <p className="text-xs uppercase text-red-700">{`${errors.email.message}`}</p>}
+        {errors.email && (
+          <p className="text-xs uppercase text-red-700">{`${errors.email.message}`}</p>
+        )}
         <div className="flex w-full gap-2" id="password-input">
-          <label htmlFor="password" className="text-lake-blue uppercase">
+          <label htmlFor="password" className="uppercase text-lake-blue">
             password
           </label>
-          <input {...register("password")} type="password" id="password" className="bg-lake-gray-input text-lake-blue flex-1 px-1" />
+          <input
+            {...register("password")}
+            type="password"
+            id="password"
+            className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
+          />
         </div>
-        {errors.password && <p className="text-xs uppercase text-red-700">{`${errors.password.message}`}</p>}
+        {errors.password && (
+          <p className="text-xs uppercase text-red-700">{`${errors.password.message}`}</p>
+        )}
         <div className="flex w-full gap-2" id="repeat-password-input">
-          <label htmlFor="repeat-password" className="text-lake-blue uppercase">
+          <label htmlFor="repeat-password" className="uppercase text-lake-blue">
             repeat password
           </label>
-          <input {...register("repeatPassword")} type="password" id="repeat-password" className="bg-lake-gray-input text-lake-blue flex-1 px-1" />
+          <input
+            {...register("repeatPassword")}
+            type="password"
+            id="repeat-password"
+            className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
+          />
         </div>
-        {errors.repeatPassword && <p className="text-xs uppercase text-red-700">{`${errors.repeatPassword.message}`}</p>}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="border-lake-blue text-lake-blue hover:bg-lake-blue/75 self-center rounded-full border-2 px-3 py-1 uppercase hover:text-white"
-        >
+        {errors.repeatPassword && (
+          <p className="text-xs uppercase text-red-700">{`${errors.repeatPassword.message}`}</p>
+        )}
+        <Button type="submit" disabled={isSubmitting} className="self-center">
           {isSubmitting ? "loading" : "sign up"}
-        </button>
-        {errors.root && <p className="text-xs uppercase text-red-700">{`${errors.root.message}`}</p>}
+        </Button>
+        {errors.root && (
+          <p className="text-xs uppercase text-red-700">{`${errors.root.message}`}</p>
+        )}
       </form>
     </div>
   );

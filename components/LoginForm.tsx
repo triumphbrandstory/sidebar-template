@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 // import { signIn } from "next-auth/react";
 import { GoogleSignInButton } from "@/components/GoogleSignInButton";
+import { Button } from "./ui/button";
 
 export function LoginForm() {
   const router = useRouter();
@@ -78,13 +79,9 @@ export function LoginForm() {
           />
         </div>
         {error && <p className="text-xs uppercase text-red-700">{error}</p>}
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="self-center rounded-full border-2 border-lake-blue px-3 py-1 uppercase text-lake-blue hover:bg-lake-blue/75 hover:text-white"
-        >
+        <Button type="submit" disabled={isLoading} className="self-center">
           {isLoading ? "loading" : "done"}
-        </button>
+        </Button>
       </form>
     </div>
   );

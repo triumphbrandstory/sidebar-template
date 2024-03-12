@@ -1,6 +1,7 @@
 "use client";
 
 import { ScubaIcon } from "@/assets/icons/ScubaIcon";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 export default function SignUpSuccessPage() {
@@ -14,20 +15,29 @@ export default function SignUpSuccessPage() {
         </div>
         <div className="flex flex-col items-start gap-4 px-10 py-6">
           <div>
-            <h2 className="font-semibold uppercase leading-tight text-lake-blue">you have been</h2>
-            <h2 className="font-semibold uppercase leading-tight text-lake-blue"> successfully registered</h2>
+            <h2 className="font-semibold uppercase leading-tight text-lake-blue">
+              you have been
+            </h2>
+            <h2 className="font-semibold uppercase leading-tight text-lake-blue">
+              {" "}
+              successfully registered
+            </h2>
           </div>
           <div className="flex flex-col">
-            <small className="uppercase leading-tight text-lake-blue">check your inbox</small>
-            <small className="uppercase leading-tight text-lake-blue">for a confirmation email and data terms</small>
+            <small className="uppercase leading-tight text-lake-blue">
+              check your inbox
+            </small>
+            <small className="uppercase leading-tight text-lake-blue">
+              for a confirmation email and data terms
+            </small>
           </div>
-          <button
+          <Button
+            className="group self-center"
             onClick={() => push("/my-lake")}
-            className="inline-flex gap-1 self-center rounded-full border-2 border-lake-blue px-3 py-1 uppercase text-lake-blue hover:bg-lake-blue/75 hover:text-white"
           >
-            <ScubaIcon className="h-5 w-5 fill-lake-blue" />
+            <ScubaIcon className="mr-2 h-5 w-5 fill-lake-blue group-hover:fill-white" />
             go to your lake
-          </button>
+          </Button>
         </div>
       </div>
     </main>

@@ -1,4 +1,7 @@
 "use client";
+
+import { Button } from "./ui/button";
+
 // import { signIn } from "next-auth/react";
 
 export function GoogleSignInButton() {
@@ -6,11 +9,11 @@ export function GoogleSignInButton() {
   const handleClick = () => {};
 
   return (
-    <button
+    <Button
       onClick={handleClick}
-      className="border-lake-blue text-lake-blue hover:bg-lake-blue/75 rounded-full border-2 px-3 py-1 uppercase hover:text-white"
+      className="rounded-full border-2 border-lake-blue px-3 py-1 uppercase text-lake-blue hover:bg-lake-blue/75 hover:text-white"
     >
       Continue with Google
-    </button>
+    </Button>
   );
 }

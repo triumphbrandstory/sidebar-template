@@ -3,13 +3,14 @@ import { MoveLeft } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { UserMenuBase } from "../../_components/user-menu-base";
+import { Button } from "@/components/ui/button";
 
 export default function NewMemoryPage() {
   const [charCount, setCharCount] = useState(0);
 
   return (
     <main className="flex h-full w-full flex-col items-start justify-between">
-      <UserMenuBase className="mx-12 mb-2 mt-12 flex items-center gap-2 self-end" />
+      <UserMenuBase />
       <div className="flex w-full flex-1 flex-col justify-start" id="form">
         <div className="border-b-2 border-b-lake-blue pb-4" id="form-title">
           <h2 className="pl-6 text-7xl uppercase text-lake-blue">new memory</h2>
@@ -77,16 +78,14 @@ export default function NewMemoryPage() {
         </div>
       </div>
       <div className="flex w-full justify-between px-12 py-8">
-        <Link
-          href="/my-lake"
-          className="flex items-center justify-center gap-1 rounded-full border-2 border-lake-blue px-3 py-1 uppercase text-lake-blue hover:bg-lake-blue/75 hover:text-white"
-        >
-          <MoveLeft />
-          back to your lake
-        </Link>
-        <button className="inline-block rounded-full border-2 border-white bg-lake-blue px-3 py-1 uppercase text-white hover:border-lake-blue hover:bg-white hover:text-lake-blue">
-          save
-        </button>
+        <Button asChild>
+          <Link href="/my-lake">
+            <MoveLeft className="mr-2" />
+            back to your lake
+          </Link>
+        </Button>
+
+        <Button variant="primary">save</Button>
       </div>
     </main>
   );

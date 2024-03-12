@@ -6,6 +6,7 @@ import { MoveLeft } from "lucide-react";
 // import { useSession, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { UserMenuBase } from "../../_components/user-menu-base";
+import { Button } from "@/components/ui/button";
 
 export default function OverviewPage() {
   // const { data: session } = useSession({
@@ -14,7 +15,7 @@ export default function OverviewPage() {
 
   return (
     <main className="flex h-screen w-full flex-col items-start justify-between">
-      <UserMenuBase className="mx-12 mb-2 mt-12 flex items-center gap-2 self-end" />
+      <UserMenuBase />
       {/* <UserMenuExtended className="mx-12 mb-2 mt-12 flex items-center gap-2 self-end" /> */}
       <div
         className="flex h-full w-full flex-col justify-start overflow-y-visible sm:overflow-y-auto"
@@ -111,28 +112,24 @@ export default function OverviewPage() {
         </div>
       </div>
       <div className="flex w-full flex-wrap justify-between gap-4 px-12 py-8 xl:gap-0">
-        <Link
-          href="/my-lake"
-          className="flex h-fit items-center justify-center gap-1 rounded-full border-2 border-lake-blue px-3 py-1 uppercase text-lake-blue hover:bg-lake-blue/75 hover:text-white"
-        >
-          <MoveLeft />
-          back to your lake
-        </Link>
-        <div className="flex gap-4">
-          <Link
-            href={"/delete-account"}
-            className="flex h-fit items-center justify-center rounded-full border-2 border-lake-blue px-3 py-1 uppercase text-lake-blue hover:bg-lake-blue/75 hover:text-white"
-          >
-            delete account
+        <Button asChild>
+          <Link href="/my-lake">
+            <MoveLeft className="mr-2" />
+            back to your lake
           </Link>
-          <button
+        </Button>
+        <div className="flex gap-4">
+          <Button asChild>
+            <Link href={"/delete-account"}>delete account</Link>
+          </Button>
+          <Button
+            variant="primary"
             onClick={() => {
               // signOut()
             }}
-            className="inline-block h-fit rounded-full border-2 border-white bg-lake-blue px-3 py-1 uppercase text-white hover:border-lake-blue hover:bg-white hover:text-lake-blue"
           >
             logout
-          </button>
+          </Button>
         </div>
       </div>
     </main>

@@ -1,19 +1,21 @@
 import Link from "next/link";
+import { UserMenuBase } from "../_components/user-menu-base";
+import { Button } from "@/components/ui/button";
 
 export default function MyLakePage() {
   return (
-    <main className="flex h-full w-full flex-col items-center z-10">
-      <div className="border-b-lake-blue flex w-full flex-1 items-center justify-center border-b-2">
-        <h1 className="text-lake-blue uppercase pointer-events-none">all memories</h1>
+    <main className="flex h-full w-full flex-col items-center">
+      <UserMenuBase />
+      <div className="flex w-full flex-1 items-center justify-center border-b-2 border-b-lake-blue">
+        <h1 className="pointer-events-none uppercase text-lake-blue">
+          all memories
+        </h1>
       </div>
 
-      <div className="self-start px-12 py-12 w-full bg-white">
-        <Link
-          href={`/memory/2`}
-          className="border-lake-blue text-lake-blue hover:bg-lake-blue/75 inline-block rounded-full border-2 px-3 py-1 uppercase hover:text-white"
-        >
-          see what emerges
-        </Link>
+      <div className="w-full self-start bg-white px-12 py-12">
+        <Button asChild>
+          <Link href={`/memory/2`}>see what emerges</Link>
+        </Button>
       </div>
     </main>
   );
