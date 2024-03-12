@@ -1,7 +1,8 @@
-import { MoveLeft } from "lucide-react";
+import { ChevronLeft, Fish, MoveLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import waterDrop from "@/assets/water-drop.svg";
+import { Button } from "@/components/ui/button";
 // import { getServerSession } from "next-auth";
 // import { authOptions } from "@/lib/auth";
 
@@ -19,20 +20,20 @@ export default async function MemoryDetailPage({ params }: PageParams) {
     <main className="flex h-full w-full flex-col items-start justify-between">
       <div className="flex w-full flex-col" id="form">
         <div
-          className="border-b-lake-blue mb-4 grid grid-cols-3 border-b-2"
+          className="mb-4 grid grid-cols-3 border-b-2 border-b-lake-blue"
           id="form-title"
         >
-          <h2 className="text-lake-blue col-start-2 mb-4 ml-6 text-xs uppercase">
+          <h2 className="col-start-2 mb-4 ml-6 text-xs uppercase text-lake-blue">
             #{id}
           </h2>
         </div>
-        <div className="border-b-lake-blue mb-4 border-b-2" id="form-title">
-          <h2 className="text-lake-blue mb-4 ml-6 text-7xl uppercase">
+        <div className="mb-4 border-b-2 border-b-lake-blue" id="form-title">
+          <h2 className="mb-4 ml-6 text-7xl uppercase text-lake-blue">
             peko peko
           </h2>
         </div>
         <div
-          className="border-b-lake-blue text-lake-blue mb-4 grid grid-cols-3 border-b-2 pb-4 uppercase"
+          className="mb-4 grid grid-cols-3 border-b-2 border-b-lake-blue pb-4 uppercase text-lake-blue"
           id="form-date"
         >
           <h4 className="ml-6 font-semibold">date</h4>
@@ -40,14 +41,14 @@ export default async function MemoryDetailPage({ params }: PageParams) {
           <h5>10 PM</h5>
         </div>
         <div
-          className="border-b-lake-blue text-lake-blue mb-4 grid grid-cols-3 border-b-2 pb-4 uppercase"
+          className="mb-4 grid grid-cols-3 border-b-2 border-b-lake-blue pb-4 uppercase text-lake-blue"
           id="form-date"
         >
           <h4 className="ml-6 font-semibold">location</h4>
           <h5 className="uppercase">guadalajara, jalisco</h5>
           <h5 className="uppercase">mexico</h5>
         </div>
-        <div className="border-b-lake-blue text-lake-blue mb-4 flex gap-4 border-b-2">
+        <div className="mb-4 flex gap-4 border-b-2 border-b-lake-blue text-lake-blue">
           <p className="ml-6">
             We left Fenix Beds Hotel to explore a Colonia Americana. We tooke
             some pictures at Hera, but had no money to buy us a coffee. When we
@@ -61,15 +62,15 @@ export default async function MemoryDetailPage({ params }: PageParams) {
             maxLength={500}
             name="description"
             id="description"
-            className="placeholder:text-lake-blue ml-6 h-[12ch] flex-1 resize-none border-none text-xl focus:outline-none focus:ring-0"
+            className="ml-6 h-[12ch] flex-1 resize-none border-none text-xl placeholder:text-lake-blue focus:outline-none focus:ring-0"
             placeholder="About what happened"
           />
         </div>
 
-        <div className="border-b-lake-blue text-lake-blue mb-4 grid grid-cols-3 gap-4 border-b-2 pb-4">
+        <div className="mb-4 grid grid-cols-3 gap-4 border-b-2 border-b-lake-blue pb-4 text-lake-blue">
           <label
             htmlFor="email"
-            className="tex-sm text-lake-blue ml-6 self-start font-semibold uppercase"
+            className="tex-sm ml-6 self-start font-semibold uppercase text-lake-blue"
           >
             in a bottle to
           </label>
@@ -77,24 +78,18 @@ export default async function MemoryDetailPage({ params }: PageParams) {
         </div>
       </div>
       <div className="flex w-full justify-between px-12 py-12">
-        <Link
-          href="/my-lake"
-          className="border-lake-blue text-lake-blue hover:bg-lake-blue/75 flex items-center justify-center gap-1 rounded-full border-2 px-3 py-1 uppercase hover:text-white"
-        >
-          <MoveLeft />
-          back to your memories
-        </Link>
-        <Link
-          href={`/memories/send`}
-          className="border-lake-blue text-lake-blue hover:bg-lake-blue/75 group flex items-center justify-center gap-1 rounded-full border-2 px-3 py-1 uppercase hover:text-white"
-        >
-          <Image
-            className="group-hover:brightness-0 group-hover:invert"
-            src={waterDrop}
-            alt="water drop icon"
-          />{" "}
-          send in a bottle
-        </Link>
+        <Button asChild>
+          <Link href="/my-lake">
+            <ChevronLeft className="mr-1 h-5 w-5" />
+            back to your lake
+          </Link>
+        </Button>
+        <Button asChild>
+          <Link href={`/memories/send`}>
+            <Fish className="mr-1 h-5 w-5" />
+            send in a bottle
+          </Link>
+        </Button>
       </div>
     </main>
   );

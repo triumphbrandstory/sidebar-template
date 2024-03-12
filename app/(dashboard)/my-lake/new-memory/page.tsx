@@ -1,5 +1,5 @@
 "use client";
-import { MoveLeft } from "lucide-react";
+import { ChevronLeft, MoveLeft } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { UserMenuBase } from "../../_components/user-menu-base";
@@ -80,7 +80,7 @@ export default function NewMemoryPage() {
       <div className="flex w-full justify-between px-12 py-8">
         <Button asChild>
           <Link href="/my-lake">
-            <MoveLeft className="mr-2" />
+            <ChevronLeft className="mr-1 h-5 w-5" />
             back to your lake
           </Link>
         </Button>

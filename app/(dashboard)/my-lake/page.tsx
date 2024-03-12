@@ -14,7 +14,7 @@ export default function MyLakePage() {
 
       <div className="w-full self-start bg-white px-12 py-12">
         <Button asChild>
-          <Link href={`/memory/2`}>see what emerges</Link>
+          <Link href={`/my-lake/memory/2`}>see what emerges</Link>
         </Button>
       </div>
     </main>

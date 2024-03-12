@@ -2,7 +2,7 @@
 import Link from "next/link";
 import waterDrop from "@/assets/water-drop.svg";
 import Image from "next/image";
-import { MoveLeft } from "lucide-react";
+import { ChevronLeft, MoveLeft } from "lucide-react";
 // import { useSession, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { UserMenuBase } from "../../_components/user-menu-base";
@@ -114,7 +114,7 @@ export default function OverviewPage() {
       <div className="flex w-full flex-wrap justify-between gap-4 px-12 py-8 xl:gap-0">
         <Button asChild>
           <Link href="/my-lake">
-            <MoveLeft className="mr-2" />
+            <ChevronLeft className="mr-1 h-5 w-5" />
             back to your lake
           </Link>
         </Button>

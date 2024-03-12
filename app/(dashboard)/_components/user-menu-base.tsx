@@ -18,7 +18,7 @@ export function UserMenuBase() {
           size={20}
           className="text-lake-blue group-hover:brightness-90 group-data-[state=open]:rotate-180"
         />
-        <div className="rounded-full bg-lake-blue p-1.5 outline outline-1 outline-offset-2 outline-lake-blue group-hover:brightness-90">
+        <div className="rounded-full bg-lake-blue p-1.5 outline outline-2 outline-offset-2 outline-lake-blue group-hover:brightness-90">
           <ScubaIcon className="h-5 w-5 fill-white" />
         </div>
       </PopoverTrigger>

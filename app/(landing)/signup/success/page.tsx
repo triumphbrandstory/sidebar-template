@@ -9,8 +9,11 @@ export default function SignUpSuccessPage() {
 
   return (
     <main className="flex h-full flex-col items-center justify-center p-14">
-      <div className="border border-lake-blue" id="form">
-        <div className="border-b border-lake-blue py-2 pl-2 " id="form-header">
+      <div className="border-2 border-lake-blue" id="form">
+        <div
+          className="border-b-2 border-lake-blue py-2 pl-2 "
+          id="form-header"
+        >
           <h2 className="text-xl uppercase text-lake-blue">sign up</h2>
         </div>
         <div className="flex flex-col items-start gap-4 px-10 py-6">
@@ -35,7 +38,7 @@ export default function SignUpSuccessPage() {
             className="group self-center"
             onClick={() => push("/my-lake")}
           >
-            <ScubaIcon className="mr-2 h-5 w-5 fill-lake-blue group-hover:fill-white" />
+            <ScubaIcon className="mr-1 h-5 w-5 fill-lake-blue group-hover:fill-white" />
             go to your lake
           </Button>
         </div>
