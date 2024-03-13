@@ -1,18 +1,54 @@
 import Link from "next/link";
 import { UserMenuBase } from "../_components/user-menu-base";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Shell1 from "@/assets/shells/shell1.png";
+import Shell2 from "@/assets/shells/shell2.png";
+import Shell3 from "@/assets/shells/shell3.png";
+import Shell4 from "@/assets/shells/shell4.png";
+import Shell5 from "@/assets/shells/shell5.png";
+import Shell6 from "@/assets/shells/shell6.png";
 
 export default function MyLakePage() {
   return (
-    <main className="flex h-full w-full flex-col items-center">
+    <main className="relative flex h-screen w-full flex-col items-center">
       <UserMenuBase />
-      <div className="flex w-full flex-1 items-center justify-center border-b-2 border-b-lake-blue">
-        <h1 className="pointer-events-none uppercase text-lake-blue">
+      <div className="flex max-h-[90vh] w-full items-center justify-center overflow-y-scroll border-b-2 border-b-lake-blue">
+        <div className="grid h-full w-full grid-cols-3 grid-rows-3">
+          <div className="h-full w-full self-end justify-self-end">
+            <Image src={Shell1} alt="shell" className="h-auto w-[200px]" />
+          </div>
+          <div className="h-full w-full self-end justify-self-end">
+            <Image src={Shell2} alt="shell" className="h-auto w-[200px]" />
+          </div>
+          <div className="h-full w-full self-end justify-self-end">
+            <Image src={Shell3} alt="shell" className="h-auto w-[200px]" />
+          </div>
+          <div className="h-full w-full self-end justify-self-end">
+            <Image src={Shell4} alt="shell" className="h-auto w-[200px]" />
+          </div>
+          <div className="h-full w-full self-end justify-self-end">
+            <Image src={Shell5} alt="shell" className="h-auto w-[200px]" />
+          </div>
+          <div className="h-full w-full self-end justify-self-end">
+            <Image src={Shell6} alt="shell" className="h-auto w-[200px]" />
+          </div>
+          <div className="h-full w-full self-end justify-self-end">
+            <Image src={Shell1} alt="shell" className="h-auto w-[200px]" />
+          </div>
+          <div className="h-full w-full self-end justify-self-end">
+            <Image src={Shell3} alt="shell" className="h-auto w-[200px]" />
+          </div>
+          <div className="h-full w-full self-end justify-self-end">
+            <Image src={Shell2} alt="shell" className="h-auto w-[200px]" />
+          </div>
+        </div>
+        {/* <h1 className="pointer-events-none uppercase text-lake-blue">
           all memories
-        </h1>
+        </h1> */}
       </div>
 
-      <div className="w-full self-start bg-white px-12 py-12">
+      <div className="z-10 h-[20vh] w-full self-start border-t-2 border-lake-blue bg-white px-12 py-12">
         <Button asChild>
           <Link href={`/my-lake/memory/2`}>see what emerges</Link>
         </Button>
