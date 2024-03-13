@@ -16,7 +16,7 @@ import { MyLakeLeftColumn } from "./_components/my-lake/left-column";
 
 const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["300", "400", "600"],
   variable: "--font-archivo",
 });
 
