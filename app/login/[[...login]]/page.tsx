@@ -3,24 +3,10 @@ import { FormWrapper } from "@/app/(landing)/_components/form-wrapper/form-wrapp
 import { HomeLeftColumn } from "@/app/(landing)/_components/home/left-column";
 import { AuthenticateButtons } from "@/components/AuthenticateButtons";
 import { GoogleSignInButton } from "@/components/GoogleSignInButton";
-import { LoginForm } from "@/components/LoginForm";
 import { Button } from "@/components/ui/button";
 import { useSignIn, isClerkAPIResponseError } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-
-type ClerkError = {
-  code: string;
-  message: string;
-  longMessage: string;
-  meta: any;
-};
-
-type ClerkAPIError = {
-  status: number;
-  clerkError: boolean;
-  errors: ClerkError[];
-};
 
 export default function LogInClerkPage() {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -75,9 +61,9 @@ export default function LogInClerkPage() {
       {/* <UserButton /> */}
       {/* left column */}
       <HomeLeftColumn />
-      <div className="flex flex-col items-center justify-between gap-12 overflow-y-scroll bg-white px-16 py-16 md:max-h-screen md:px-28 xl:gap-0">
+      <div className="flex flex-col items-center justify-between gap-12 overflow-y-scroll bg-white px-12 py-12 md:max-h-screen xl:gap-0">
         <AuthenticateButtons />
-        <div className="flex h-full place-items-center">
+        <div className="flex h-full w-full place-items-center justify-center">
           <FormWrapper title="Login">
             <div
               className="flex flex-col items-center gap-4 px-10 py-6"
