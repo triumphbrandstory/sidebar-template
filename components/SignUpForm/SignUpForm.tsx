@@ -1,14 +1,11 @@
 "use client";
-import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import bcrypt from "bcryptjs";
-import axios, { AxiosResponse } from "axios";
 import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpFormSchema, type TSignUpFormSchema } from "./schema";
 import { Button } from "../ui/button";
-// import { signIn } from "next-auth/react";
 
 export function SignUpForm() {
   const { push } = useRouter();
@@ -26,11 +23,12 @@ export function SignUpForm() {
     const { name, email, password } = data;
 
     const hashedPassword = await bcrypt.hash(data.password, 12);
-    const response = await axios.post("/api/signup", {
-      name,
-      email,
-      hashedPassword,
-    });
+    const response = {
+      data: {
+        errors: { name: "", email: "", password: "", repeatPassword: "" },
+        success: {},
+      },
+    };
 
     if (response.data.errors) {
       const errors = response.data.errors;
