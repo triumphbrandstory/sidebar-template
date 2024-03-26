@@ -3,12 +3,10 @@ import { isClerkAPIResponseError, useSignIn, useSignUp } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 import { OAuthStrategy } from "@clerk/nextjs/server";
 
-export function GoogleSignInButton() {
-  const { signIn } = useSignIn();
+export function GoogleSignUpButton() {
   const { signUp } = useSignUp();
-
-  const signInWith = (strategy: OAuthStrategy) => {
-    return signIn
+  const signUpWith = (strategy: OAuthStrategy) => {
+    return signUp
       ?.authenticateWithRedirect({
         strategy,
         redirectUrl: "/sso-callback",
@@ -23,7 +21,7 @@ export function GoogleSignInButton() {
 
   return (
     <Button
-      onClick={() => signInWith("oauth_google")}
+      onClick={() => signUpWith("oauth_google")}
       className="rounded-full border-2 border-lake-blue px-3 py-1 uppercase text-lake-blue hover:bg-lake-blue/75 hover:text-white"
     >
       Continue with Google

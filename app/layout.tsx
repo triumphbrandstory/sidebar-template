@@ -1,0 +1,30 @@
+import { Metadata } from "next";
+import "./globals.css";
+// import { archivo } from "@/lib/fonts";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Archivo } from "next/font/google";
+
+export const metadata: Metadata = {
+  title: { template: "Memory Lake | %s", default: "Memory Lake" },
+  description: "Save mementos & share them with youself and your loved ones.",
+};
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  fallback: ["sans-serif"],
+});
+
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${archivo.className} antialiased`}>{children}</body>
+      </html>
+    </ClerkProvider>
+  );
+}

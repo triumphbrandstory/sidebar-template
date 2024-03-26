@@ -19,7 +19,7 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: "var(--font-archivo)",
+        sans: ["var(--font-archivo)"],
       },
       colors: {
         "lake-blue": "#0000FF",
