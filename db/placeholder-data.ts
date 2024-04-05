@@ -1,0 +1,41 @@
+// USERS - (id, clerk_id, first_name, last_name, email)
+// MEMORIES - (id, user_id, title, description, date, time, location_1, location_2, notify_date, shared_with_email)
+// USER_PREFERENCES - (id, user_id, app_notification, email_notification)
+
+import {
+  InsertUser,
+  InsertUserPreferences,
+  type InsertMemories,
+} from "./schema";
+
+export const placeholder_users: InsertUser[] = [
+  {
+    id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    clerk_id: "410544b2-4001-4271-9855-fec4b6a6442a",
+    first_name: "Laila",
+    last_name: "Varaschin",
+    email: "laila@laila.com",
+  },
+];
+
+export const placeholder_user_preferences: InsertUserPreferences[] = [
+  {
+    user_id: placeholder_users[0].clerk_id!,
+    app_notification: true,
+    email_notification: false,
+  },
+];
+
+export const placeholder_memories: InsertMemories[] = [
+  {
+    user_id: placeholder_users[0].clerk_id!,
+    title: "",
+    description: "",
+    date: "2022-12-06",
+    time: "",
+    location_1: "",
+    location_2: "",
+    notify_date: "date-time",
+    shared_with_email: placeholder_users[1].email,
+  },
+];
