@@ -74,7 +74,7 @@ export default async function MemoryDetailPage({ params }: PageParams) {
           >
             in a bottle to
           </label>
-          <p className="uppercase">pdrmenezes1@gmail.com</p>
+          <p className="uppercase">friend@email.com</p>
         </div>
       </div>
       <div className="flex w-full justify-between px-12 py-12">

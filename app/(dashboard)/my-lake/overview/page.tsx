@@ -8,9 +8,14 @@ import { Button } from "@/components/ui/button";
 import { useClerk } from "@clerk/nextjs";
 import { formatDateToShort } from "@/lib/utils";
 import { MyLakeLeftColumn } from "../../_components/my-lake/left-column";
+import { useEffect } from "react";
 
 export default function OverviewPage() {
   const { signOut, user } = useClerk();
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">

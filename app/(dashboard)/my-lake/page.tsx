@@ -1,3 +1,4 @@
+// "use client";
 import Link from "next/link";
 import { UserMenuBase } from "../_components/user-menu-base";
 import { Button } from "@/components/ui/button";
@@ -9,8 +10,25 @@ import Shell4 from "@/assets/shells/shell4.png";
 import Shell5 from "@/assets/shells/shell5.png";
 import Shell6 from "@/assets/shells/shell6.png";
 import { MyLakeLeftColumn } from "../_components/my-lake/left-column";
+import { auth, currentUser, useAuth, useUser } from "@clerk/nextjs";
 
 export default function MyLakePage() {
+  // TODO: REMOVE USER INFO TESTS
+
+  // SERVER COMPONENTS
+  // const { user: authUser, userId } = auth();
+  // const user = currentUser();
+
+  // console.log("auth User: ", authUser);
+  // console.log("currentUser User: ", user);
+
+  // CLIENT COMPONENTS
+  // const { isLoaded: authLoaded, userId, sessionId, getToken } = useAuth();
+  // const { isLoaded, isSignedIn, user } = useUser();
+
+  // console.log("useAuth userId: ", userId);
+  // console.log("useUser User: ", user);
+
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
       {/* left column */}
