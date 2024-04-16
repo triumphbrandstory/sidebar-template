@@ -1,7 +1,6 @@
-import { LanguageMenu } from "@/app/(dashboard)/_components/language-menu";
+// import { LanguageMenu } from "@/app/(dashboard)/_components/language-menu";
 import { Hero } from "@/components/Hero";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
 export function HomeLeftColumn() {
@@ -17,7 +16,7 @@ export function HomeLeftColumn() {
             about us
           </Link>
         </Button>
-        <LanguageMenu lang="en" />
+        {/* <LanguageMenu /> */}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { LanguageMenu } from "../language-menu";
+// import { LanguageMenu } from "../language-menu";
 
 export function MyLakeLeftColumn() {
   return (
@@ -14,7 +14,7 @@ export function MyLakeLeftColumn() {
         <Button variant="secondary" asChild>
           <Link href="/about">about us</Link>
         </Button>
-        <LanguageMenu lang="en" />
+        {/* <LanguageMenu /> */}
       </div>
     </div>
   );
