@@ -16,7 +16,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [verifying, setVerifying] = useState(false);
-  const [code, setCode] = useState("");
+  const [confirmationCode, setConfirmationCode] = useState("");
   const router = useRouter();
 
   // This function will handle the user submitting their email and password
@@ -59,7 +59,7 @@ export default function SignUpPage() {
     try {
       // Submit the code that the user provides to attempt verification
       const completeSignUp = await signUp.attemptEmailAddressVerification({
-        code,
+        code: confirmationCode,
       });
 
       if (completeSignUp.status !== "complete") {
@@ -87,133 +87,143 @@ export default function SignUpPage() {
     }
   };
 
-  // Once the sign-up form was submitted, verifying was set to true and as a result, this verification form is presented to the user to input their verification code.
-  // TODO: style confirmation code page
-  if (verifying) {
-    return (
-      <div className="flex h-full place-items-center">
-        <FormWrapper title="Confirmation code">
-          <div
-            className="flex flex-col items-center gap-4 px-10 py-6"
-            id="form-content"
-          >
-            <p>
-              A 6-digit code was sent to <br />
-              {emailAddress}
-            </p>
-            <form onSubmit={handleVerify}>
-              <label id="code">Confirmation code</label>
-              <input
-                value={code}
-                id="code"
-                name="code"
-                onChange={(e) => setCode(e.target.value)}
-              />
-              <button type="submit">Complete Sign Up</button>
-            </form>
-          </div>
-        </FormWrapper>
-      </div>
-    );
-  }
-
-  // Display the initial sign-up form to capture the email and password
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
-      {/* <UserButton /> */}
       {/* left column */}
       <HomeLeftColumn />
+      {/* right column */}
       <div className="flex flex-col items-center justify-between gap-12 bg-white px-12 py-12 md:max-h-screen xl:gap-0">
         <AuthenticateButtons />
         <div className="flex h-full w-full place-items-center justify-center">
-          <FormWrapper title="Sign Up">
-            <div
-              className="flex flex-col items-center gap-4 px-10 py-6"
-              id="form-content"
-            >
-              <GoogleSignUpButton />
-              <span className="text-lake-blue">or</span>
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col items-start space-y-5"
-                id="form-inputs"
-              >
-                <div className="flex w-full gap-2" id="firstName-input">
-                  <label
-                    htmlFor="firstName"
-                    className="uppercase text-lake-blue"
-                  >
-                    first name
-                  </label>
-                  <input
-                    name="firstName"
-                    type="text"
-                    id="firstName"
-                    className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </div>
-                <div className="flex w-full gap-2" id="lastName-input">
-                  <label
-                    htmlFor="lastName"
-                    className="uppercase text-lake-blue"
-                  >
-                    last name
-                  </label>
-                  <input
-                    name="lastName"
-                    type="text"
-                    id="lastName"
-                    className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </div>
-                <div className="flex w-full gap-2" id="email-input">
-                  <label htmlFor="email" className="uppercase text-lake-blue">
-                    e-mail
-                  </label>
-                  <input
-                    name="email"
-                    type="email"
-                    id="email"
-                    className="flex-1 bg-lake-gray-input px-1 text-lake-blue autofill:text-lake-blue"
-                    value={emailAddress}
-                    onChange={(e) => setEmailAddress(e.target.value)}
-                  />
-                </div>
-
-                <div className="flex w-full gap-2" id="password-input">
-                  <label
-                    htmlFor="password"
-                    className="uppercase text-lake-blue"
-                  >
-                    password
-                  </label>
-                  <input
-                    type="password"
-                    id="password"
-                    className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-
-                <Button
-                  type="submit"
-                  disabled={!isLoaded}
-                  className="self-center"
+          {verifying ? (
+            <FormWrapper title="Confirm your email">
+              <div className="flex flex-col items-center gap-4 px-10 py-6">
+                <p className="text-lake-blue">
+                  A 6-digit code was sent to <br />
+                  {emailAddress}
+                </p>
+                <form
+                  onSubmit={handleVerify}
+                  className="flex flex-col items-start space-y-5"
                 >
-                  {!isLoaded ? "loading" : "sign up"}
-                </Button>
-                {error && (
-                  <p className="text-xs uppercase text-red-700">{error}</p>
-                )}
-              </form>
-            </div>
-          </FormWrapper>
+                  <div
+                    className="flex w-full gap-2"
+                    id="confirmationCode-input"
+                  >
+                    <label
+                      htmlFor="confirmationCode"
+                      className="uppercase text-lake-blue"
+                    >
+                      confirmation code
+                    </label>
+                    <input
+                      value={confirmationCode}
+                      id="confirmationCode"
+                      name="confirmationCode"
+                      className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
+                      maxLength={6}
+                      onChange={(e) => setConfirmationCode(e.target.value)}
+                    />
+                  </div>
+                  <Button type="submit" className="self-center">
+                    confirm
+                  </Button>
+                  {error && (
+                    <p className="text-xs uppercase text-red-700">{error}</p>
+                  )}
+                </form>
+              </div>
+            </FormWrapper>
+          ) : (
+            <FormWrapper title="Sign Up">
+              <div
+                className="flex flex-col items-center gap-4 px-10 py-6"
+                id="form-content"
+              >
+                <GoogleSignUpButton />
+                <span className="text-lake-blue">or</span>
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex flex-col items-start space-y-5"
+                  id="form-inputs"
+                >
+                  <div className="flex w-full gap-2" id="firstName-input">
+                    <label
+                      htmlFor="firstName"
+                      className="uppercase text-lake-blue"
+                    >
+                      first name
+                    </label>
+                    <input
+                      name="firstName"
+                      type="text"
+                      id="firstName"
+                      className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex w-full gap-2" id="lastName-input">
+                    <label
+                      htmlFor="lastName"
+                      className="uppercase text-lake-blue"
+                    >
+                      last name
+                    </label>
+                    <input
+                      name="lastName"
+                      type="text"
+                      id="lastName"
+                      className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex w-full gap-2" id="email-input">
+                    <label htmlFor="email" className="uppercase text-lake-blue">
+                      e-mail
+                    </label>
+                    <input
+                      name="email"
+                      type="email"
+                      id="email"
+                      className="flex-1 bg-lake-gray-input px-1 text-lake-blue autofill:text-lake-blue"
+                      value={emailAddress}
+                      onChange={(e) => setEmailAddress(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="flex w-full gap-2" id="password-input">
+                    <label
+                      htmlFor="password"
+                      className="uppercase text-lake-blue"
+                    >
+                      password
+                    </label>
+                    <input
+                      type="password"
+                      id="password"
+                      className="flex-1 bg-lake-gray-input px-1 text-lake-blue"
+                      name="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={!isLoaded}
+                    className="self-center"
+                  >
+                    {!isLoaded ? "loading" : "sign up"}
+                  </Button>
+                  {error && (
+                    <p className="text-xs uppercase text-red-700">{error}</p>
+                  )}
+                </form>
+              </div>
+            </FormWrapper>
+          )}
         </div>
       </div>
     </div>
