@@ -8,14 +8,9 @@ import { Button } from "@/components/ui/button";
 import { useClerk } from "@clerk/nextjs";
 import { formatDateToShort } from "@/lib/utils";
 import { MyLakeLeftColumn } from "../../_components/my-lake/left-column";
-import { useEffect } from "react";
 
 export default function OverviewPage() {
   const { signOut, user } = useClerk();
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
@@ -129,7 +124,7 @@ export default function OverviewPage() {
           </Button>
           <div className="flex gap-4">
             <Button asChild>
-              <Link href={"/delete-account"}>delete account</Link>
+              <Link href={"/my-lake/delete-account"}>delete account</Link>
             </Button>
             <Button variant="primary" onClick={() => signOut()}>
               logout

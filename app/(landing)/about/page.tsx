@@ -6,7 +6,7 @@ export default function AboutPage() {
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
       {/* left column */}
       <HomeLeftColumn />
-      <div className="flex h-screen w-full flex-col items-start justify-between px-12 py-12">
+      <div className="flex max-h-screen min-h-[50vh] w-full flex-col items-start justify-between px-12 py-12">
         <AuthenticateButtons />
         <div className="flex h-full w-full items-center justify-center text-lake-blue">
           <p>We are a creative duo based in Brazil.</p>
