@@ -72,7 +72,7 @@ export default function SignUpPage() {
       // If complete, the user has been created -- set the session active
       if (completeSignUp.status === "complete") {
         await setActive({ session: completeSignUp.createdSessionId });
-        // TODO: add user in db with user.id, registeredAt date
+        // TODO: add user in db with user.id
         // Redirect the user to a post sign-up route
         router.push("/my-lake");
       }
