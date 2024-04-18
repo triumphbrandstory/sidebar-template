@@ -1,6 +1,11 @@
+import "server-only";
 import { and, eq, lte, or } from "drizzle-orm";
 import db from "./drizzle";
-import { MemoriesTable, UserPreferencesTable } from "./schema";
+import {
+  MemoriesTable,
+  UserPreferencesTable,
+  insertMemorySchema,
+} from "./schema";
 import { currentUser } from "@clerk/nextjs";
 
 // TODO: REMOVE USER INFO TESTS
@@ -25,7 +30,7 @@ export async function getAllUserMemories() {
   const userEmail = user?.emailAddresses[0].emailAddress;
 
   if (!user?.id || !userEmail)
-    return { error: "You don't have access to this resource" };
+    throw new Error("You don't have access to this resource");
 
   return await db
     .select()
@@ -44,7 +49,7 @@ export async function getUnseenUserMemories() {
   const userEmail = user?.emailAddresses[0].emailAddress;
 
   if (!user?.id || !userEmail)
-    return { error: "You don't have access to this resource" };
+    throw new Error("You don't have access to this resource");
 
   // select memories created by the user,
   // that were shared with the user,
@@ -97,7 +102,7 @@ export async function getSingleRandomUnseenUserMemory() {}
 export async function getUserPreferences() {
   const user = await currentUser();
 
-  if (!user?.id) return { error: "You don't have access to this resource" };
+  if (!user?.id) throw new Error("You don't have access to this resource");
 
   const user_preferences = await db
     .selectDistinct()
@@ -105,4 +110,29 @@ export async function getUserPreferences() {
     .where(eq(UserPreferencesTable.user_id, user.id));
 
   return user_preferences;
+}
+
+// FORM ACTIONS
+
+export async function createMemory(formData: FormData) {
+  const user = await currentUser();
+
+  if (!user?.id) throw new Error("You don't have access to this resource");
+  if (!formData) throw new Error("Failed to create memory");
+
+  const rawFormData = Object.fromEntries(formData.entries());
+
+  const validatedFields = insertMemorySchema.safeParse({
+    userId: user.id,
+    ...rawFormData,
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create Invoice",
+    };
+  }
+  // TODO: improve create memories function (react-hook-form / server actions...)
+  // const createdMemory = await db.insert(MemoriesTable).values(validatedFields);
 }

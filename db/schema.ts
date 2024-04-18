@@ -11,6 +11,7 @@ import {
   uniqueIndex,
   index,
 } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const UsersTable = pgTable(
   "users",
@@ -101,6 +102,13 @@ export const MemoriesTableRelations = relations(MemoriesTable, ({ one }) => {
     }),
   };
 });
+
+export const insertUserSchema = createInsertSchema(UsersTable, {
+  email: (schema) => schema.email.email(),
+});
+
+export const selectMemorySchema = createSelectSchema(MemoriesTable);
+export const insertMemorySchema = createInsertSchema(MemoriesTable);
 
 export type SelectUser = typeof UsersTable.$inferSelect;
 export type InsertUser = typeof UsersTable.$inferInsert;
