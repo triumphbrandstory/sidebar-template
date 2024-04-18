@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -23,12 +23,14 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "drizzle-orm": "^0.30.8",
+    "drizzle-zod": "^0.5.1",
     "lucide-react": "^0.368.0",
     "next": "14.2.1",
     "pg": "^8.11.5",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
