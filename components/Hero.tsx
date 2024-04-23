@@ -4,7 +4,7 @@ export function Hero() {
   return (
     <div className="flex h-full max-w-[420px] flex-1 items-center justify-center">
       <Link href="/">
-        <h1 className="text-center text-8xl font-light leading-tight text-white">
+        <h1 className="text-center text-5xl md:text-8xl font-light leading-tight text-white">
           MEMORY LAKE
         </h1>
       </Link>
