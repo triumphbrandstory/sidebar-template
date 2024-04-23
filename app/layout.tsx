@@ -7,7 +7,7 @@ import { Archivo } from "next/font/google";
 export const metadata: Metadata = {
   metadataBase: new URL('https://memorylake.cc'),
   title: { template: "Memory Lake | %s", default: "Memory Lake" },
-  description: "Save mementos & share them with youself and your loved ones.",
+  description: "Save mementos & share them with yourself and your loved ones.",
   keywords: ["Memories", "Water", "Blue"],
   applicationName: "Memory Lake",
   formatDetection: { email: false, address: false, telephone: false },
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   ],
   openGraph:{
     title:"Memory Lake",
-    description:"Save mementos & share them with youself and your loved ones.",
+    description:"Save mementos & share them with yourself and your loved ones.",
     url: "https://memorylake.cc",
     siteName: "Memory Lake",
     authors: ["Laura Papa", "Pedro Menezes"]
