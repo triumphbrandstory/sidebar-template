@@ -4,7 +4,8 @@ import { HomeLeftColumn } from "@/app/(landing)/_components/home/left-column";
 import { AuthenticateButtons } from "@/components/AuthenticateButtons";
 import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 import { Button } from "@/components/ui/button";
-import { useSignIn, isClerkAPIResponseError } from "@clerk/nextjs";
+import { useSignIn } from "@clerk/nextjs";
+import { isClerkAPIResponseError } from "@clerk/nextjs/errors"
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 

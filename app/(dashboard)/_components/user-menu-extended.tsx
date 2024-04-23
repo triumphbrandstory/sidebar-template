@@ -8,15 +8,12 @@ import {
 } from "@/components/ui/popover";
 import { ChevronDownIcon, MoveRight } from "lucide-react";
 import Link from "next/link";
-// import { signOut, useSession } from "next-auth/react";
 
 export function UserMenuExtended({
   className,
 }: {
   className?: string | undefined;
 }) {
-  // const { data: session } = useSession();
-
   return (
     <Popover>
       <PopoverTrigger className={`${className} group`}>
@@ -34,10 +31,7 @@ export function UserMenuExtended({
             className="border-b border-lake-blue py-2 pl-2 "
             id="popover-header"
           >
-            <h2 className="uppercase text-lake-blue">
-              {/* {session?.user?.name} */}
-              Conceição Evaristo
-            </h2>
+            <h2 className="uppercase text-lake-blue">Conceição Evaristo</h2>
           </div>
           <div className="flex flex-col items-start pb-6">
             <Link
@@ -63,14 +57,7 @@ export function UserMenuExtended({
                 for a confirmation email and data terms
               </small>
             </div>
-            <Button
-              onClick={
-                () => {}
-                // signOut()
-              }
-            >
-              logout
-            </Button>
+            <Button>logout</Button>
           </div>
         </div>
       </PopoverContent>

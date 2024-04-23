@@ -1,7 +1,8 @@
 "use client";
-import { isClerkAPIResponseError, useSignIn, useSignUp } from "@clerk/nextjs";
+import { useSignIn, useSignUp } from "@clerk/nextjs";
+import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { Button } from "./ui/button";
-import { OAuthStrategy } from "@clerk/nextjs/server";
+import { OAuthStrategy } from "@clerk/types";
 
 export function GoogleSignUpButton() {
   const { signUp } = useSignUp();

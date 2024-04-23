@@ -6,7 +6,7 @@ import {
   UserPreferencesTable,
   insertMemorySchema,
 } from "./schema";
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server"
 
 // TODO: REMOVE USER INFO TESTS
 
