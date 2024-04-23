@@ -61,6 +61,7 @@ export default function LogInClerkPage() {
       {/* <UserButton /> */}
       {/* left column */}
       <HomeLeftColumn />
+      {/* right column */}
       <div className="flex flex-col items-center justify-between gap-12 bg-white px-12 py-12 md:max-h-screen xl:gap-0">
         <AuthenticateButtons />
         <div className="flex h-full w-full place-items-center justify-center">
