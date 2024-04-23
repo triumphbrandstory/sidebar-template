@@ -104,9 +104,11 @@ export const MemoriesTableRelations = relations(MemoriesTable, ({ one }) => {
   };
 });
 
+// Drizzle-zod schema + type inference
 export const insertUserSchema = createInsertSchema(UsersTable, {
   email: (schema) => schema.email.email(),
 });
+export type insertUserUserType = z.infer<typeof insertUserSchema>
 
 export const selectMemorySchema = createSelectSchema(MemoriesTable);
 export type selectMemoryType = z.infer<typeof selectMemorySchema>;
@@ -114,6 +116,10 @@ export type selectMemoryType = z.infer<typeof selectMemorySchema>;
 export const insertMemorySchema = createInsertSchema(MemoriesTable);
 export type insertMemoryType = z.infer<typeof insertMemorySchema>;
 
+export const insertUserPreferencesSchema = createInsertSchema(UserPreferencesTable)
+export type insertUserPreferencesType = z.infer<typeof insertUserPreferencesSchema>
+
+// Drizzle's type inference
 // export type SelectUser = typeof UsersTable.$inferSelect;
 // export type InsertUser = typeof UsersTable.$inferInsert;
 
