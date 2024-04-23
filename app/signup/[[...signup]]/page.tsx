@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import { isClerkAPIResponseError, useSignUp } from "@clerk/nextjs";
+import { useSignUp } from "@clerk/nextjs";
+import { isClerkAPIResponseError } from "@clerk/nextjs/errors"
 import { useRouter } from "next/navigation";
 import { FormWrapper } from "@/app/(landing)/_components/form-wrapper/form-wrapper";
 import { Button } from "@/components/ui/button";

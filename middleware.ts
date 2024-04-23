@@ -1,10 +1,18 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-export default authMiddleware({
-  // Allow signed out users to access the specified routes:
-  publicRoutes: ["/", "/about", "/sso-callback"],
+const isProtectedRoute = createRouteMatcher(["/my-lake(.*)"]);
+
+export default clerkMiddleware((auth, request) => {
+  if (isProtectedRoute(request)) auth().protect();
+
+  return NextResponse.next();
 });
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: [
+    "/((?!.*\\..*|_next).*)", // Don't run middleware on static files
+    "/", // Run middleware on index page
+    "/(api|trpc)(.*)",
+  ], // Run middleware on API routes
 };

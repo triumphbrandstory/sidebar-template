@@ -2,13 +2,13 @@
 // MEMORIES - (id, user_id, title, description, date, time, location_1, location_2, notify_date, shared_with_email)
 // USER_PREFERENCES - (id, user_id, app_notification, email_notification)
 
-import {
-  InsertUser,
-  InsertUserPreferences,
-  type InsertMemories,
+import type {
+  insertUserUserType,
+  insertUserPreferencesType,
+  insertMemoryType,
 } from "./schema";
 
-export const placeholder_users: InsertUser[] = [
+export const placeholder_users: insertUserUserType[] = [
   {
     id: "410544b2-4001-4271-9855-fec4b6a6442a",
     clerk_id: "410544b2-4001-4271-9855-fec4b6a6442a",
@@ -18,7 +18,7 @@ export const placeholder_users: InsertUser[] = [
   },
 ];
 
-export const placeholder_user_preferences: InsertUserPreferences[] = [
+export const placeholder_user_preferences: insertUserPreferencesType[] = [
   {
     user_id: placeholder_users[0].clerk_id!,
     app_notification: true,
@@ -26,9 +26,9 @@ export const placeholder_user_preferences: InsertUserPreferences[] = [
   },
 ];
 
-export const placeholder_memories: InsertMemories[] = [
+export const placeholder_memories: insertMemoryType[] = [
   {
-    user_id: placeholder_users[0].clerk_id!,
+    user_id: placeholder_users[0].clerk_id,
     title: "",
     description: "",
     date: "2022-12-06",
