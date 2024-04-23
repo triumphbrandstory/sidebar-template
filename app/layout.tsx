@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Archivo } from "next/font/google";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://memorylake.cc'),
   title: { template: "Memory Lake | %s", default: "Memory Lake" },
   description: "Save mementos & share them with youself and your loved ones.",
   keywords: ["Memories", "Water", "Blue"],
