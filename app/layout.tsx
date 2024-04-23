@@ -7,6 +7,21 @@ import { Archivo } from "next/font/google";
 export const metadata: Metadata = {
   title: { template: "Memory Lake | %s", default: "Memory Lake" },
   description: "Save mementos & share them with youself and your loved ones.",
+  keywords: ["Memories", "Water", "Blue"],
+  applicationName: "Memory Lake",
+  formatDetection: { email: false, address: false, telephone: false },
+  appleWebApp: true,
+  authors: [
+    { name: "Laura Papa", url: "https://laurapapa.com" },
+    { name: "Pedro Menezes", url: "https://pdrmenezes.com" },
+  ],
+  openGraph:{
+    title:"Memory Lake",
+    description:"Save mementos & share them with youself and your loved ones.",
+    url: "https://memorylake.cc",
+    siteName: "Memory Lake",
+    authors: ["Laura Papa", "Pedro Menezes"]
+  }
 };
 
 const archivo = Archivo({
