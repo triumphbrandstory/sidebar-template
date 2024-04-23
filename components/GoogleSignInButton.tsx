@@ -2,11 +2,10 @@
 import { useSignIn, useSignUp } from "@clerk/nextjs";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { Button } from "./ui/button";
-import { OAuthStrategy } from "@clerk/nextjs/server";
+import { OAuthStrategy } from "@clerk/types";
 
 export function GoogleSignInButton() {
   const { signIn } = useSignIn();
-  const { signUp } = useSignUp();
 
   const signInWith = (strategy: OAuthStrategy) => {
     return signIn

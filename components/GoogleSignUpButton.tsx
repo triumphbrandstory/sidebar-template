@@ -1,5 +1,5 @@
 "use client";
-import { useSignIn, useSignUp } from "@clerk/nextjs";
+import { useSignUp } from "@clerk/nextjs";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { Button } from "./ui/button";
 import { OAuthStrategy } from "@clerk/types";
