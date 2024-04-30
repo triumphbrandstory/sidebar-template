@@ -114,7 +114,7 @@ export const selectMemorySchema = createSelectSchema(MemoriesTable);
 export type selectMemoryType = z.infer<typeof selectMemorySchema>;
 
 export const insertMemorySchema = createInsertSchema(MemoriesTable, {
-  date: z.date().refine((value) => value.toISOString()),
+  date: z.date().transform((value) => value.toISOString()),
 });
 export type insertMemoryType = z.infer<typeof insertMemorySchema>;
 

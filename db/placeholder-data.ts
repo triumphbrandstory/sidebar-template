@@ -31,7 +31,7 @@ export const placeholder_memories: insertMemoryType[] = [
     user_id: placeholder_users[0].clerk_id,
     title: "",
     description: "",
-    date: new Date(2025, 6, 30),
+    date: "2025-6-30",
     time: "19:30",
     location_1: "",
     location_2: "",
