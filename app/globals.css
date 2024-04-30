@@ -74,3 +74,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: #0000FF;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(7%) sepia(100%) saturate(7500%) hue-rotate(248deg) brightness(103%) contrast(143%);
+   
+}
