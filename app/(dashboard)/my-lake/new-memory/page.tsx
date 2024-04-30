@@ -18,6 +18,7 @@ export default function NewMemoryPage() {
   const form = useForm<CreateMemoryType>({
     resolver: zodResolver(createMemorySchema),
     defaultValues: {
+      time: undefined,
       reminderType: "random",
       specificDate: undefined,
       day: undefined,
@@ -66,25 +67,43 @@ export default function NewMemoryPage() {
                   control={form.control}
                   name="date"
                   render={({ field }) => (
-                    <>
+                    <div className="flex flex-col">
                       <DatePicker {...field} />
                       <FormMessage />
-                    </>
+                    </div>
                   )}
                 />
                 {/* <h5>10 PM</h5> */}
-                <input
-                  {...form.register("time")}
-                  type="time"
-                  className="w-fit bg-lake-gray-input px-4 outline-0"
+                <FormField
+                  control={form.control}
+                  name="time"
+                  render={({ field }) => (
+                    <div className="flex flex-col">
+                      <input
+                        {...field}
+                        type="time"
+                        className="h-9 w-fit bg-lake-gray-input px-4 outline-0"
+                      />
+                      <FormMessage />
+                    </div>
+                  )}
                 />
               </div>
-              <div className="border-b-2 border-b-lake-blue py-4 pb-4 text-lake-blue">
-                <input
-                  {...form.register("title")}
-                  type="text"
-                  className="w-full pl-6 text-4xl uppercase placeholder:text-lake-blue focus:outline-none"
-                  placeholder="title"
+              <div className="border-b-2 border-b-lake-blue py-4 pb-4 uppercase text-lake-blue">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <div className="flex flex-col">
+                      <input
+                        {...field}
+                        type="text"
+                        className="w-full pl-6 text-4xl uppercase placeholder:text-lake-blue focus:outline-none"
+                        placeholder="title"
+                      />
+                      <FormMessage className="pl-6" />
+                    </div>
+                  )}
                 />
               </div>
               <div className="flex gap-4 border-b-2 border-b-lake-blue py-4 text-lake-blue">
@@ -186,8 +205,9 @@ export default function NewMemoryPage() {
                     1/5 memories sent
                   </span>
                 </div>
-                {form.formState.errors && (
-                  <span className="text-destructive">
+                {/* TODO: remove error logs */}
+                {Object.keys(form.formState.errors).length > 0 && (
+                  <span className="text-xs text-destructive">
                     {JSON.stringify(form.formState.errors, null, 2)}
                   </span>
                 )}

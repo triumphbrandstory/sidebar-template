@@ -9,7 +9,7 @@ export type ReminderType =
 
 export type CreateMemoryType = {
   date: Date;
-  time: string;
+  time?: string;
   title: string;
   description: string;
   reminderType: ReminderType;
@@ -17,13 +17,17 @@ export type CreateMemoryType = {
   month?: number;
   year?: number;
   specificDate?: Date;
-  sharedWith: string;
+  sharedWith?: string;
 };
 
 export const createMemorySchema = z.object({
-  date: z.date().transform((value) => value.toUTCString()),
-  time: z.string(),
-  title: z.string(),
+  date: z
+    .date({ message: "Date is required" })
+    .transform((value) => value.toUTCString()),
+  time: z.string().min(1).optional(),
+  title: z
+    .string({ message: "Please provide a title for your memory" })
+    .min(1, { message: "Please provide a title for your memory" }),
   description: z.string(),
   reminderType: z.enum([
     "at",

@@ -46,7 +46,13 @@ export function DatePicker(
           selected={field.value}
           onSelect={field.onChange}
           initialFocus
-          disabled={field.name === "date" ? (date) => date > new Date() : field.name === "specificDate" ? (date) => date < new Date() : undefined}
+          disabled={
+            field.name === "date"
+              ? (date) => date > new Date()
+              : field.name === "specificDate"
+                ? (date) => date < new Date()
+                : undefined
+          }
         />
       </PopoverContent>
     </Popover>
