@@ -23,7 +23,7 @@ export function DatePicker(
         <Button
           variant={"input"}
           className={cn(
-            "w-fit justify-start text-left font-normal",
+            "w-full justify-start text-left font-normal lg:w-fit",
             !field.value && "text-muted-foreground",
           )}
         >

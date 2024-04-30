@@ -8,7 +8,7 @@ const ReminderTypePicker = React.forwardRef<
   ReminderTypePickerProps
 >(({ ...props }, ref) => {
   return (
-    <select value={props.value} onChange={props.onChange} ref={ref}>
+    <select value={props.value} className="h-9 self-center" onChange={props.onChange} ref={ref}>
       <option value="random">WHEN TIME COMES</option>
       <option value="at">SPECIFIC DATE</option>
       <option value="randomDay">RANDOM DAY</option>

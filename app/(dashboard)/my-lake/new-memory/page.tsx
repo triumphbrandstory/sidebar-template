@@ -58,7 +58,7 @@ export default function NewMemoryPage() {
                 </h2>
               </div>
               <div
-                className="grid grid-cols-3 border-b-2 border-b-lake-blue py-4 pb-4 uppercase text-lake-blue"
+                className="flex flex-col gap-4 lg:grid lg:grid-cols-3 border-b-2 border-b-lake-blue py-4 pb-4 uppercase text-lake-blue"
                 id="form-date"
               >
                 <h4 className="self-center pl-6 font-semibold">date</h4>
@@ -69,7 +69,7 @@ export default function NewMemoryPage() {
                   render={({ field }) => (
                     <div className="flex flex-col">
                       <DatePicker {...field} />
-                      <FormMessage />
+                      <FormMessage className="text-center" />
                     </div>
                   )}
                 />
@@ -82,7 +82,7 @@ export default function NewMemoryPage() {
                       <input
                         {...field}
                         type="time"
-                        className="h-9 w-fit bg-lake-gray-input px-4 outline-0"
+                        className="h-9 w-full text-center lg:w-fit bg-lake-gray-input px-4 outline-0"
                       />
                       <FormMessage />
                     </div>
@@ -194,7 +194,7 @@ export default function NewMemoryPage() {
                   <input
                     {...form.register("sharedWith")}
                     type="email"
-                    className="mr-9 flex-1 bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
+                    className="mr-9 h-9 flex-1 bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
                   />
                 </div>
                 <div className="flex gap-6">
