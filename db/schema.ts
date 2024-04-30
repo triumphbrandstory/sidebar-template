@@ -108,16 +108,21 @@ export const MemoriesTableRelations = relations(MemoriesTable, ({ one }) => {
 export const insertUserSchema = createInsertSchema(UsersTable, {
   email: (schema) => schema.email.email(),
 });
-export type insertUserUserType = z.infer<typeof insertUserSchema>
+export type insertUserUserType = z.infer<typeof insertUserSchema>;
 
 export const selectMemorySchema = createSelectSchema(MemoriesTable);
 export type selectMemoryType = z.infer<typeof selectMemorySchema>;
 
-export const insertMemorySchema = createInsertSchema(MemoriesTable);
+export const insertMemorySchema = createInsertSchema(MemoriesTable, {
+  date: z.date().refine((value) => value.toISOString()),
+});
 export type insertMemoryType = z.infer<typeof insertMemorySchema>;
 
-export const insertUserPreferencesSchema = createInsertSchema(UserPreferencesTable)
-export type insertUserPreferencesType = z.infer<typeof insertUserPreferencesSchema>
+export const insertUserPreferencesSchema =
+  createInsertSchema(UserPreferencesTable);
+export type insertUserPreferencesType = z.infer<
+  typeof insertUserPreferencesSchema
+>;
 
 // Drizzle's type inference
 // export type SelectUser = typeof UsersTable.$inferSelect;
