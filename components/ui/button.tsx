@@ -21,6 +21,7 @@ const buttonVariants = cva(
           "bg-white text-lake-blue border-2 border-lake-blue shadow-sm hover:border-white hover:bg-white/25 hover:text-white",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        input: "bg-lake-gray-input lowercase rounded-none",
       },
       size: {
         default: "h-9 px-4 py-2",
