@@ -13,12 +13,14 @@ import { YearPicker } from "@/components/ui/yearpicker";
 import { ReminderTypePicker } from "@/components/ui/reminder-type-picker";
 import { MonthPicker } from "@/components/ui/monthpicker";
 import { CreateMemoryType, createMemorySchema } from "./schema";
+import { DayPicker } from "@/components/ui/daypicker";
 
 export default function NewMemoryPage() {
   const form = useForm<CreateMemoryType>({
     resolver: zodResolver(createMemorySchema),
     defaultValues: {
-      time: undefined,
+      title: "",
+      time: "",
       reminderType: "random",
       specificDate: undefined,
       day: undefined,
@@ -33,12 +35,15 @@ export default function NewMemoryPage() {
       ? ABBREVIATE_MONTHS.filter((month) => month.index > new Date().getMonth())
       : ABBREVIATE_MONTHS;
 
+  const daysInAMonth = Array.from({ length: 31 }, (_, i) => i + 1);
+
   const onSubmit: SubmitHandler<CreateMemoryType> = (data) => console.log(data);
 
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
       {/* left column */}
       <MyLakeLeftColumn />
+      {/* right column */}
       <div className="flex flex-col">
         <div className="mb-2 mr-12 mt-12 self-end">
           <UserMenuBase />
@@ -50,30 +55,28 @@ export default function NewMemoryPage() {
           >
             <div className="flex w-full flex-1 flex-col justify-start">
               <div
-                className="border-b-2 border-b-lake-blue pb-4"
+                className="border-b-2 border-b-lake-blue pb-4 pl-6"
                 id="form-title"
               >
-                <h2 className="pl-6 text-7xl uppercase text-lake-blue">
+                <h2 className="text-7xl uppercase text-lake-blue">
                   new memory
                 </h2>
               </div>
               <div
-                className="flex flex-col gap-4 lg:grid lg:grid-cols-3 border-b-2 border-b-lake-blue py-4 pb-4 uppercase text-lake-blue"
+                className="flex flex-col items-center gap-4 border-b-2 border-b-lake-blue py-4 pb-4 pl-6 uppercase text-lake-blue lg:grid lg:grid-cols-4"
                 id="form-date"
               >
-                <h4 className="self-center pl-6 font-semibold">date</h4>
-                {/* <h5>nov 12, 2019</h5> */}
+                <h4 className="font-semibold">date</h4>
                 <FormField
                   control={form.control}
                   name="date"
                   render={({ field }) => (
                     <div className="flex flex-col">
                       <DatePicker {...field} />
-                      <FormMessage className="text-center" />
+                      <FormMessage className="text-center lg:text-left" />
                     </div>
                   )}
                 />
-                {/* <h5>10 PM</h5> */}
                 <FormField
                   control={form.control}
                   name="time"
@@ -82,14 +85,14 @@ export default function NewMemoryPage() {
                       <input
                         {...field}
                         type="time"
-                        className="h-9 w-full text-center lg:w-fit bg-lake-gray-input px-4 outline-0"
+                        className="h-9 w-full bg-lake-gray-input px-4 text-center outline-0 lg:w-fit"
                       />
                       <FormMessage />
                     </div>
                   )}
                 />
               </div>
-              <div className="border-b-2 border-b-lake-blue py-4 pb-4 uppercase text-lake-blue">
+              <div className="border-b-2 border-b-lake-blue py-4 pb-4 pl-6 uppercase text-lake-blue">
                 <FormField
                   control={form.control}
                   name="title"
@@ -98,41 +101,49 @@ export default function NewMemoryPage() {
                       <input
                         {...field}
                         type="text"
-                        className="w-full pl-6 text-4xl uppercase placeholder:text-lake-blue focus:outline-none"
+                        className="w-full text-4xl uppercase placeholder:text-lake-blue focus:outline-none"
                         placeholder="title"
                       />
-                      <FormMessage className="pl-6" />
+                      <FormMessage />
                     </div>
                   )}
                 />
               </div>
-              <div className="flex gap-4 border-b-2 border-b-lake-blue py-4 text-lake-blue">
-                <span className="tex-sm self-start pl-6 text-lake-gray">
+              <div className="flex gap-4 border-b-2 border-b-lake-blue py-4 pl-6 text-lake-blue">
+                <span className="w-[12ch] text-sm text-lake-gray">
                   {form.watch("description")
                     ? form.watch("description").length
                     : 0}
                   /500
                 </span>
-                <textarea
-                  {...form.register("description")}
-                  spellCheck={false}
-                  maxLength={500}
-                  className="h-[12ch] flex-1 resize-none border-none text-xl placeholder:text-lake-blue focus:outline-none focus:ring-0"
-                  placeholder="About what happened"
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <div className="flex h-[12ch] w-full flex-col">
+                      <textarea
+                        {...field}
+                        maxLength={500}
+                        className="flex-1 resize-none border-none text-xl placeholder:text-lake-blue focus:outline-none focus:ring-0"
+                        placeholder="About what happened"
+                      />
+                      <FormMessage />
+                    </div>
+                  )}
                 />
               </div>
-              <div className="flex gap-4 border-b-2 border-b-lake-blue py-4 pb-4 text-lake-blue">
-                <h4 className="tex-sm self-center pl-6 font-semibold uppercase text-lake-blue">
+              <div className="flex items-center gap-4 border-b-2 border-b-lake-blue py-4 pb-4 pl-6 text-lake-blue">
+                <h4 className="tex-sm font-semibold uppercase text-lake-blue">
                   meet this memory{" "}
                 </h4>
                 <FormField
                   control={form.control}
                   name="reminderType"
                   render={({ field }) => (
-                    <>
+                    <span className="flex flex-col">
                       <ReminderTypePicker {...field} />
                       <FormMessage />
-                    </>
+                    </span>
                   )}
                 />
 
@@ -142,18 +153,20 @@ export default function NewMemoryPage() {
                     now
                   </span>
                 )}
+
                 {form.watch("reminderType") === "at" && (
                   <FormField
                     control={form.control}
                     name="specificDate"
                     render={({ field }) => (
-                      <>
+                      <span className="flex flex-col">
                         <DatePicker {...field} />
                         <FormMessage />
-                      </>
+                      </span>
                     )}
                   />
                 )}
+
                 {form.watch("reminderType") === "randomDay" && (
                   <>
                     <FormField
@@ -181,13 +194,68 @@ export default function NewMemoryPage() {
                     />
                   </>
                 )}
-                {/* <div className="flex-1 uppercase">when time comes</div> */}
+
+                {form.watch("reminderType") === "randomMonth" && (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="day"
+                      render={({ field }) => (
+                        <>
+                          <DayPicker options={daysInAMonth} {...field} />
+                          <FormMessage />
+                        </>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="year"
+                      render={({ field }) => (
+                        <>
+                          <YearPicker
+                            options={FIFTEEN_YEARS_FROM_NOW}
+                            {...field}
+                          />
+                          <FormMessage />
+                        </>
+                      )}
+                    />
+                  </>
+                )}
+
+                {form.watch("reminderType") === "randomYear" && (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="day"
+                      render={({ field }) => (
+                        <>
+                          <DayPicker options={daysInAMonth} {...field} />
+                          <FormMessage />
+                        </>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="month"
+                      render={({ field }) => (
+                        <>
+                          <MonthPicker options={filteredMonths} {...field} />
+                          <FormMessage />
+                        </>
+                      )}
+                    />
+                  </>
+                )}
               </div>
               <div className="flex flex-col gap-4 border-b-2 border-b-lake-blue py-4 text-lake-blue">
-                <div className="flex gap-2 pr-4" id="email-input">
+                <div
+                  className="flex items-center gap-2 pl-6 pr-4"
+                  id="email-input"
+                >
                   <label
                     htmlFor="email"
-                    className="tex-sm self-start pl-6 font-semibold uppercase text-lake-blue"
+                    className="tex-sm font-semibold uppercase text-lake-blue"
                   >
                     send in a bottle to
                   </label>
@@ -197,20 +265,14 @@ export default function NewMemoryPage() {
                     className="mr-9 h-9 flex-1 bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
                   />
                 </div>
-                <div className="flex gap-6">
-                  <span className="pl-6 text-xs uppercase text-lake-gray">
+                <div className="flex gap-6 pl-6">
+                  <span className="text-xs uppercase text-lake-gray">
                     this memory will meet you both at the same time.
                   </span>
                   <span className="text-xs uppercase text-lake-gray">
                     1/5 memories sent
                   </span>
                 </div>
-                {/* TODO: remove error logs */}
-                {Object.keys(form.formState.errors).length > 0 && (
-                  <span className="text-xs text-destructive">
-                    {JSON.stringify(form.formState.errors, null, 2)}
-                  </span>
-                )}
               </div>
             </div>
             <div className="flex w-full justify-between px-12 py-8">
