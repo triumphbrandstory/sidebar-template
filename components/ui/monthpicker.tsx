@@ -1,4 +1,4 @@
-import { ABBREVIATE_MONTHS, FIFTEEN_YEARS_FROM_NOW } from "@/lib/constants";
+import { ABBREVIATE_MONTHS } from "@/lib/constants";
 import React from "react";
 
 interface MonthPickerProps
