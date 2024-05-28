@@ -6,23 +6,7 @@ import {
   UserPreferencesTable,
   insertMemorySchema,
 } from "./schema";
-import { currentUser } from "@clerk/nextjs/server"
-
-// TODO: REMOVE USER INFO TESTS
-
-// SERVER COMPONENTS
-// const { user: authUser, userId } = auth();
-// const user = currentUser();
-
-// console.log("auth User: ", authUser);
-// console.log("currentUser User: ", user);
-
-// CLIENT COMPONENTS
-// const { isLoaded: authLoaded, userId, sessionId, getToken } = useAuth();
-// const { isLoaded, isSignedIn, user } = useUser();
-
-// console.log("useAuth userId: ", userId);
-// console.log("useUser User: ", user);
+import { currentUser } from "@clerk/nextjs/server";
 
 // TODO: improve returning data from db
 export async function getAllUserMemories() {
@@ -114,6 +98,7 @@ export async function getUserPreferences() {
 
 // FORM ACTIONS
 
+// TODO: improve create memories function (react-hook-form / server actions...)
 export async function createMemory(formData: FormData) {
   const user = await currentUser();
 
@@ -133,6 +118,6 @@ export async function createMemory(formData: FormData) {
       message: "Missing Fields. Failed to Create Invoice",
     };
   }
-  // TODO: improve create memories function (react-hook-form / server actions...)
+
   // const createdMemory = await db.insert(MemoriesTable).values(validatedFields);
 }
