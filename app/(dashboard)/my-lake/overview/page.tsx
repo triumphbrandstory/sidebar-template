@@ -48,7 +48,7 @@ export default function OverviewPage() {
               34 mementos in your memory lake
             </h5>
             <span className="col-span-full col-start-2 text-xs uppercase text-lake-gray">
-              06 emerged / 28 still to meet you in the future
+              06 emerged / 28 to meet you in the future
             </span>
           </div>
           <div
@@ -60,7 +60,7 @@ export default function OverviewPage() {
             </h4>
             <h5 className="col-span-full col-start-2">3/5</h5>
             <span className="col-span-full col-start-1 whitespace-pre-line pl-6 pr-4 text-xs uppercase text-lake-gray">
-              you can send up to 5 bottles per month. bottles are automatically
+              you can send up to 3 bottles per month. bottles are automatically
               renewed every first day of the month. if they don&apos;t have a
               memory lake account, the bottle will be sent via email
             </span>
@@ -74,13 +74,7 @@ export default function OverviewPage() {
             </h4>
             <h5 className="col-start-2 uppercase">via desktop</h5>
             <label className="relative col-start-3 inline-flex cursor-pointer items-center">
-              <input
-                type="checkbox"
-                value=""
-                className="peer sr-only"
-                checked
-                readOnly
-              />
+              <input type="checkbox" value="" className="peer sr-only" />
               <div className="peer h-6 w-11 rounded-full border-2 border-lake-blue after:absolute after:h-5 after:w-5 after:rounded-full after:bg-lake-blue after:transition-all after:content-[''] peer-checked:bg-lake-blue peer-checked:after:translate-x-full peer-checked:after:bg-white"></div>
             </label>
             <h5 className="col-start-2 row-start-2 uppercase">via e-mail</h5>

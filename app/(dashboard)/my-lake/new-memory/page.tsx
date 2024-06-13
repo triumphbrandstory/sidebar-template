@@ -5,7 +5,7 @@ import { UserMenuBase } from "../../_components/user-menu-base";
 import { Button } from "@/components/ui/button";
 import { MyLakeLeftColumn } from "../../_components/my-lake/left-column";
 import { DatePicker } from "@/components/ui/datepicker";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { ABBREVIATE_MONTHS, FIFTEEN_YEARS_FROM_NOW } from "@/lib/constants";
@@ -14,18 +14,25 @@ import { ReminderTypePicker } from "@/components/ui/reminder-type-picker";
 import { MonthPicker } from "@/components/ui/monthpicker";
 import { CreateMemoryType, createMemorySchema } from "./schema";
 import { DayPicker } from "@/components/ui/daypicker";
+import { useUser } from "@clerk/nextjs";
+import { MemoriesTable, insertMemorySchema } from "@/db/schema";
+import { db } from "@/db/drizzle";
 
 export default function NewMemoryPage() {
+  const { user } = useUser();
+
   const form = useForm<CreateMemoryType>({
     resolver: zodResolver(createMemorySchema),
     defaultValues: {
       title: "",
       time: "",
+      description: "",
       reminderType: "random",
       specificDate: undefined,
       day: undefined,
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear(),
+      sharedWith: "",
     },
     shouldUnregister: true,
   });
@@ -37,7 +44,34 @@ export default function NewMemoryPage() {
 
   const daysInAMonth = Array.from({ length: 31 }, (_, i) => i + 1);
 
-  const onSubmit: SubmitHandler<CreateMemoryType> = (data) => console.log(data);
+  const onSubmit = form.handleSubmit(async (formData) => {
+    if (!user?.id) throw new Error("You don't have access to this resource");
+    if (!formData)
+      throw new Error("Failed to create memory. Form Data Missing.");
+
+    const validatedFields = insertMemorySchema.safeParse({
+      user_id: user.id,
+      notify_date: formData.reminderType === "at" && formData.specificDate,
+      shared_with_email: formData.sharedWith || undefined,
+      ...formData,
+    });
+
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+        message: "Missing Fields. Failed to Create Memory",
+      };
+    }
+
+    const createdMemory = await db
+      .insert(MemoriesTable)
+      .values(validatedFields.data);
+
+    if (createdMemory.rowCount > 0) {
+      alert("Memory successfuly created!");
+      form.reset();
+    }
+  });
 
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
@@ -51,7 +85,7 @@ export default function NewMemoryPage() {
         <Form {...form}>
           <form
             className="flex h-full w-full flex-col justify-between"
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={onSubmit}
           >
             <div className="flex w-full flex-1 flex-col justify-start">
               <div
@@ -66,7 +100,7 @@ export default function NewMemoryPage() {
                 className="flex flex-col items-center gap-4 border-b-2 border-b-lake-blue py-4 pb-4 pl-6 uppercase text-lake-blue lg:grid lg:grid-cols-4"
                 id="form-date"
               >
-                <h4 className="font-semibold">date</h4>
+                <label className="font-semibold">date</label>
                 <FormField
                   control={form.control}
                   name="date"
@@ -132,7 +166,7 @@ export default function NewMemoryPage() {
                   )}
                 />
               </div>
-              <div className="flex items-center gap-4 border-b-2 border-b-lake-blue py-4 pb-4 pl-6 text-lake-blue">
+              <div className="flex items-center gap-4 border-b-2 border-b-lake-blue py-4 pl-6 text-lake-blue">
                 <h4 className="tex-sm font-semibold uppercase text-lake-blue">
                   meet this memory{" "}
                 </h4>
@@ -259,10 +293,19 @@ export default function NewMemoryPage() {
                   >
                     send in a bottle to
                   </label>
-                  <input
-                    {...form.register("sharedWith")}
-                    type="email"
-                    className="mr-9 h-9 flex-1 bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
+                  <FormField
+                    control={form.control}
+                    name="sharedWith"
+                    render={({ field }) => (
+                      <div className="flex flex-grow flex-col">
+                        <input
+                          {...field}
+                          type="email"
+                          className="h-9 bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
+                        />
+                        <FormMessage />
+                      </div>
+                    )}
                   />
                 </div>
                 <div className="flex gap-6 pl-6">
