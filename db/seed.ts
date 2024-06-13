@@ -1,4 +1,4 @@
-import db from "./drizzle";
+import { db } from "./drizzle";
 import { MemoriesTable, UserPreferencesTable, UsersTable } from "./schema";
 import {
   placeholder_memories,
