@@ -12,17 +12,36 @@ import { YearPicker } from "@/components/ui/yearpicker";
 import { ReminderTypePicker } from "@/components/ui/reminder-type-picker";
 import { MonthPicker } from "@/components/ui/monthpicker";
 import { DayPicker } from "@/components/ui/daypicker";
-import { useUser } from "@clerk/nextjs";
-import { MemoriesTable, insertMemorySchema } from "@/db/schema";
-import { db } from "@/db/drizzle";
 import {
   CreateMemoryType,
   createMemorySchema,
 } from "../../my-lake/new-memory/schema";
+import { NeonHttpQueryResult } from "drizzle-orm/neon-http";
+import { useToast } from "@/components/ui/use-toast";
 
-export function NewMemoryForm() {
-  const { user } = useUser();
+type NewMemoryFormProps = {
+  createMemory: (formData: CreateMemoryType) => Promise<
+    | NeonHttpQueryResult<never>
+    | {
+        errors: {
+          date?: string[] | undefined;
+          time?: string[] | undefined;
+          title?: string[] | undefined;
+          description?: string[] | undefined;
+          day?: number[] | undefined;
+          month?: number[] | undefined;
+          year?: number[] | undefined;
+          specificDate?: Date[] | undefined;
+          sharedWith?: string[] | undefined;
+          created_at?: string[] | undefined;
+        };
+        message: string;
+      }
+  >;
+};
 
+export function NewMemoryForm({ createMemory }: NewMemoryFormProps) {
+  const { toast } = useToast();
   const form = useForm<CreateMemoryType>({
     resolver: zodResolver(createMemorySchema),
     defaultValues: {
@@ -47,30 +66,11 @@ export function NewMemoryForm() {
   const daysInAMonth = Array.from({ length: 31 }, (_, i) => i + 1);
 
   const onSubmit = form.handleSubmit(async (formData) => {
-    if (!user?.id) throw new Error("You don't have access to this resource");
-    if (!formData)
-      throw new Error("Failed to create memory. Form Data Missing.");
-
-    const validatedFields = insertMemorySchema.safeParse({
-      user_id: user.id,
-      notify_date: formData.reminderType === "at" && formData.specificDate,
-      shared_with_email: formData.sharedWith || undefined,
-      ...formData,
-    });
-
-    if (!validatedFields.success) {
-      return {
-        errors: validatedFields.error.flatten().fieldErrors,
-        message: "Missing Fields. Failed to Create Memory",
-      };
-    }
-
-    const createdMemory = await db
-      .insert(MemoriesTable)
-      .values(validatedFields.data);
-
-    if (createdMemory.rowCount > 0) {
-      alert("Memory successfuly created!");
+    const createdMemory = await createMemory(formData);
+    if (createdMemory) {
+      toast({
+        description: "Memory successfuly created",
+      });
       form.reset();
     }
   });
