@@ -2,6 +2,7 @@ import { db } from "@/db/drizzle";
 import { MemoriesTable, insertMemorySchema } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { and, eq, lte, or } from "drizzle-orm";
+import { CreateMemoryType } from "../(dashboard)/my-lake/new-memory/schema";
 
 export const memories = {
   query: {
@@ -78,5 +79,33 @@ export const memories = {
     // instead of getting all the memories from the db, just get one that hasn't surfaced yet
     getSingleRandomUnseenUserMemory: async () => {},
   },
-  mutation: {},
+  mutation: {
+    createMemory: async (formData: CreateMemoryType) => {
+      "use server"
+      const user = await currentUser();
+      if (!user?.id) throw new Error("You don't have access to this resource");
+      if (!formData)
+        throw new Error("Failed to create memory. Form Data Missing.");
+
+      const validatedFields = insertMemorySchema.safeParse({
+        user_id: user.id,
+        notify_date: formData.reminderType === "at" && formData.specificDate,
+        shared_with_email: formData.sharedWith || undefined,
+        ...formData,
+      });
+
+      if (!validatedFields.success) {
+        return {
+          errors: validatedFields.error.flatten().fieldErrors,
+          message: "Missing Fields. Failed to Create Memory",
+        };
+      }
+
+      const createdMemory = await db
+        .insert(MemoriesTable)
+        .values(validatedFields.data);
+
+      return createdMemory;
+    },
+  },
 };
