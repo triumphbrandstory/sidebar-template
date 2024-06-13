@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import "./globals.css";
-// import { archivo } from "@/lib/fonts";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Archivo } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://memorylake.cc'),
@@ -40,6 +40,7 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${archivo.className} antialiased`}>{children}</body>
+        <Toaster />
       </html>
     </ClerkProvider>
   );
