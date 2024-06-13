@@ -3,18 +3,20 @@ import {
   date,
   text,
   boolean,
-  pgTable,
   uuid,
   varchar,
   time,
   timestamp,
   uniqueIndex,
   index,
+  pgTableCreator,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const UsersTable = pgTable(
+export const createTable = pgTableCreator((name) => `memory-lake_${name}`);
+
+export const UsersTable = createTable(
   "users",
   {
     id: uuid("id").defaultRandom().primaryKey(),
@@ -31,7 +33,7 @@ export const UsersTable = pgTable(
   },
 );
 
-export const MemoriesTable = pgTable(
+export const MemoriesTable = createTable(
   "memories",
   {
     id: uuid("id").defaultRandom().primaryKey(),
@@ -66,7 +68,7 @@ export const MemoriesTable = pgTable(
   },
 );
 
-export const UserPreferencesTable = pgTable("user_preferences", {
+export const UserPreferencesTable = createTable("user_preferences", {
   id: uuid("id").defaultRandom().primaryKey(),
   user_id: text("user_id")
     .unique()
@@ -87,7 +89,7 @@ export const UserPreferencesTableRelations = relations(
   UserPreferencesTable,
   ({ one }) => {
     return {
-      user: one(UsersTable, {
+      user_id: one(UsersTable, {
         fields: [UserPreferencesTable.user_id],
         references: [UsersTable.clerk_id],
       }),
@@ -97,7 +99,7 @@ export const UserPreferencesTableRelations = relations(
 
 export const MemoriesTableRelations = relations(MemoriesTable, ({ one }) => {
   return {
-    user: one(UsersTable, {
+    user_id: one(UsersTable, {
       fields: [MemoriesTable.user_id],
       references: [UsersTable.clerk_id],
     }),
@@ -113,9 +115,7 @@ export type insertUserUserType = z.infer<typeof insertUserSchema>;
 export const selectMemorySchema = createSelectSchema(MemoriesTable);
 export type selectMemoryType = z.infer<typeof selectMemorySchema>;
 
-export const insertMemorySchema = createInsertSchema(MemoriesTable, {
-  date: z.date().transform((value) => value.toISOString()),
-});
+export const insertMemorySchema = createInsertSchema(MemoriesTable);
 export type insertMemoryType = z.infer<typeof insertMemorySchema>;
 
 export const insertUserPreferencesSchema =
@@ -123,13 +123,3 @@ export const insertUserPreferencesSchema =
 export type insertUserPreferencesType = z.infer<
   typeof insertUserPreferencesSchema
 >;
-
-// Drizzle's type inference
-// export type SelectUser = typeof UsersTable.$inferSelect;
-// export type InsertUser = typeof UsersTable.$inferInsert;
-
-// export type SelectMemories = typeof MemoriesTable.$inferSelect;
-// export type InsertMemories = typeof MemoriesTable.$inferInsert;
-
-// export type SelectUserPreferences = typeof UserPreferencesTable.$inferSelect;
-// export type InsertUserPreferences = typeof UserPreferencesTable.$inferInsert;
