@@ -5,7 +5,7 @@ import { Archivo } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://memorylake.cc'),
+  metadataBase: new URL("https://memorylake.cc"),
   title: { template: "Memory Lake | %s", default: "Memory Lake" },
   description: "Save mementos & share them with yourself and your loved ones.",
   keywords: ["Memories", "Water", "Blue"],
@@ -16,13 +16,14 @@ export const metadata: Metadata = {
     { name: "Laura Papa", url: "https://laurapapa.com" },
     { name: "Pedro Menezes", url: "https://pdrmenezes.com" },
   ],
-  openGraph:{
-    title:"Memory Lake",
-    description:"Save mementos & share them with yourself and your loved ones.",
+  openGraph: {
+    title: "Memory Lake",
+    description:
+      "Save mementos & share them with yourself and your loved ones.",
     url: "https://memorylake.cc",
     siteName: "Memory Lake",
-    authors: ["Laura Papa", "Pedro Menezes"]
-  }
+    authors: ["Laura Papa", "Pedro Menezes"],
+  },
 };
 
 const archivo = Archivo({
@@ -39,8 +40,10 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${archivo.className} antialiased`}>{children}</body>
-        <Toaster />
+        <body className={`${archivo.className} antialiased`}>
+          {children}
+          <Toaster />
+        </body>
       </html>
     </ClerkProvider>
   );
