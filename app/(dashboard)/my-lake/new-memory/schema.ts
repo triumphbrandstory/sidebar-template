@@ -8,9 +8,11 @@ export type ReminderType =
   | "randomYear";
 
 export type CreateMemoryType = {
+  title: string;
   date: Date;
   time?: string;
-  title: string;
+  location_1?: string;
+  location_2?: string;
   description: string;
   reminderType: ReminderType;
   day?: number;
@@ -22,18 +24,34 @@ export type CreateMemoryType = {
 
 export const createMemorySchema = z
   .object({
+    title: z
+      .string({ message: "Please provide a title for your memory" })
+      .min(1, { message: "Please provide a title for your memory" })
+      .max(500, { message: "The title is limited to 500 characters maximum" }),
     date: z
       .date({ message: "A date is required" })
       .transform((value) => value.toUTCString()),
-    time: z.string().min(1, {message: 'Please provide a time for your memory'}).optional(),
-    title: z
-      .string({ message: "Please provide a title for your memory" })
-      .min(1, { message: "Please provide a title for your memory" }).max(500, {message: "The title is limited to 500 characters maximum"}),
+    time: z
+      .string()
+      .min(1, { message: "Please provide a time for your memory" })
+      .optional(),
+    location_1: z
+      .string({ message: "Location should be a text" })
+      .max(255, {
+        message: "The location is limited to a maximum of 255 characters",
+      })
+      .optional(),
+    location_2: z
+      .string({ message: "Location should be a text" })
+      .max(255, {
+        message: "The location is limited to a maximum of 255 characters",
+      })
+      .optional(),
     description: z
       .string({ message: "Please provide a description for your memory" })
       .min(1, { message: "Please provide a description for your memory" })
       .max(500, {
-        message: "The description is limited to 500 characters maximum",
+        message: "The description is limited to a maximum of 500 characters",
       }),
     reminderType: z.enum([
       "at",
@@ -49,7 +67,10 @@ export const createMemorySchema = z
       .date()
       .transform((value) => value.toUTCString())
       .optional(),
-    sharedWith: z.string().email().optional(),
+    sharedWith: z
+      .string()
+      .email({ message: "Please provide the person's email" })
+      .optional(),
   })
   .superRefine((data, context) => {
     if (data.reminderType === "at" && !data.specificDate) {

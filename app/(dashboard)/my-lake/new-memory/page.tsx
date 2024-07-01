@@ -3,12 +3,18 @@ import { NewMemoryForm } from "../../_components/new-memory/new-memory-form";
 import { data } from "@/app/data";
 
 export default async function NewMemoryPage() {
+  const createdMemoriesCount =
+    await data.memories.query.getCreatedUserMemoriesCount();
+
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
       {/* left column */}
       <MyLakeLeftColumn />
       {/* right column */}
-      <NewMemoryForm createMemory={data.memories.mutation.createMemory} />
+      <NewMemoryForm
+        memoryCount={createdMemoriesCount}
+        createMemory={data.memories.mutation.createMemory}
+      />
     </div>
   );
 }

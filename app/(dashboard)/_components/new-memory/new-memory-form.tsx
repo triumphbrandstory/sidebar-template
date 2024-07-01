@@ -20,13 +20,16 @@ import { NeonHttpQueryResult } from "drizzle-orm/neon-http";
 import { useToast } from "@/components/ui/use-toast";
 
 type NewMemoryFormProps = {
+  memoryCount: number;
   createMemory: (formData: CreateMemoryType) => Promise<
     | NeonHttpQueryResult<never>
     | {
         errors: {
+          title?: string[] | undefined;
           date?: string[] | undefined;
           time?: string[] | undefined;
-          title?: string[] | undefined;
+          location_1?: string[] | undefined;
+          location_2?: string[] | undefined;
           description?: string[] | undefined;
           day?: number[] | undefined;
           month?: number[] | undefined;
@@ -40,7 +43,10 @@ type NewMemoryFormProps = {
   >;
 };
 
-export function NewMemoryForm({ createMemory }: NewMemoryFormProps) {
+export function NewMemoryForm({
+  createMemory,
+  memoryCount,
+}: NewMemoryFormProps) {
   const { toast } = useToast();
   const form = useForm<CreateMemoryType>({
     resolver: zodResolver(createMemorySchema),
@@ -86,14 +92,29 @@ export function NewMemoryForm({ createMemory }: NewMemoryFormProps) {
           onSubmit={onSubmit}
         >
           <div className="flex w-full flex-1 flex-col justify-start">
-            <div
-              className="border-b-2 border-b-lake-blue pb-4 pl-6"
-              id="form-title"
-            >
-              <h2 className="text-7xl uppercase text-lake-blue">new memory</h2>
+            <div className="border-b-2 border-b-lake-blue pb-4 pl-6">
+              <h2 className="uppercase text-lake-blue">#{memoryCount + 1}</h2>
+            </div>
+
+            <div className="border-b-2 border-b-lake-blue py-4 pb-4 pl-6 uppercase text-lake-blue">
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <div className="flex flex-col">
+                    <input
+                      {...field}
+                      type="text"
+                      className="w-full text-4xl uppercase placeholder:text-lake-blue/50 focus:outline-none"
+                      placeholder="title"
+                    />
+                    <FormMessage />
+                  </div>
+                )}
+              />
             </div>
             <div
-              className="flex flex-col items-center gap-4 border-b-2 border-b-lake-blue py-4 pb-4 pl-6 uppercase text-lake-blue lg:grid lg:grid-cols-4"
+              className="flex flex-col items-center gap-4 border-b-2 border-b-lake-blue px-6 py-4 uppercase text-lake-blue lg:grid lg:grid-cols-3"
               id="form-date"
             >
               <label className="font-semibold">date</label>
@@ -115,24 +136,41 @@ export function NewMemoryForm({ createMemory }: NewMemoryFormProps) {
                     <input
                       {...field}
                       type="time"
-                      className="h-9 w-full bg-lake-gray-input px-4 text-center outline-0 lg:w-fit"
+                      className="h-9 w-full bg-lake-gray-input px-4 text-center font-normal outline-0 placeholder:text-lake-blue/50 lg:w-fit"
                     />
                     <FormMessage />
                   </div>
                 )}
               />
             </div>
-            <div className="border-b-2 border-b-lake-blue py-4 pb-4 pl-6 uppercase text-lake-blue">
+            <div
+              className="flex flex-col items-center gap-4 border-b-2 border-b-lake-blue px-6 py-4 uppercase text-lake-blue lg:grid lg:grid-cols-3"
+              id="form-location"
+            >
+              <label className="font-semibold">location</label>
               <FormField
                 control={form.control}
-                name="title"
+                name="location_1"
                 render={({ field }) => (
                   <div className="flex flex-col">
                     <input
                       {...field}
                       type="text"
-                      className="w-full text-4xl uppercase placeholder:text-lake-blue focus:outline-none"
-                      placeholder="title"
+                      className="h-9 bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
+                    />
+                    <FormMessage />
+                  </div>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="location_2"
+                render={({ field }) => (
+                  <div className="flex flex-col">
+                    <input
+                      {...field}
+                      type="text"
+                      className="h-9 flex-grow bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
                     />
                     <FormMessage />
                   </div>
@@ -154,7 +192,7 @@ export function NewMemoryForm({ createMemory }: NewMemoryFormProps) {
                     <textarea
                       {...field}
                       maxLength={500}
-                      className="flex-1 resize-none border-none text-xl placeholder:text-lake-blue focus:outline-none focus:ring-0"
+                      className="flex-1 resize-none border-none text-xl placeholder:text-lake-blue/50 focus:outline-none focus:ring-0"
                       placeholder="About what happened"
                     />
                     <FormMessage />

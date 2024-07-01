@@ -1,7 +1,7 @@
 import { db } from "@/db/drizzle";
 import { MemoriesTable, insertMemorySchema } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
-import { and, eq, lte, or } from "drizzle-orm";
+import { and, count, eq, lte, or } from "drizzle-orm";
 import { CreateMemoryType } from "../(dashboard)/my-lake/new-memory/schema";
 
 export const memories = {
@@ -64,6 +64,18 @@ export const memories = {
       // TODO: improve returning data from db
       return allMemories;
     },
+    getCreatedUserMemoriesCount: async () => {
+      const user = await currentUser();
+
+      if (!user?.id) throw new Error("You don't have access to this resource");
+
+      const result = await db
+        .select({ count: count() })
+        .from(MemoriesTable)
+        .where(eq(MemoriesTable.user_id, user.id));
+
+      return result[0].count;
+    },
 
     // TODO: function to get the count of memories already emerged
     getSeenUserMemoriesCount: async () => {},
@@ -81,8 +93,10 @@ export const memories = {
   },
   mutation: {
     createMemory: async (formData: CreateMemoryType) => {
-      "use server"
+      "use server";
       const user = await currentUser();
+      console.log(user?.id);
+
       if (!user?.id) throw new Error("You don't have access to this resource");
       if (!formData)
         throw new Error("Failed to create memory. Form Data Missing.");
