@@ -6,7 +6,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useClerk } from "@clerk/nextjs";
-import { ChevronDownIcon } from "lucide-react";
+import {
+  ChevronDownIcon,
+  CogIcon,
+  LogOutIcon,
+  PlusCircleIcon,
+  ShellIcon,
+} from "lucide-react";
 import Link from "next/link";
 
 export function UserMenuBase() {
@@ -23,26 +29,33 @@ export function UserMenuBase() {
           <ScubaIcon className="h-5 w-5 fill-white" />
         </div>
       </PopoverTrigger>
-      <PopoverContent sideOffset={8} className="w-fit p-0">
+      <PopoverContent align="end" sideOffset={8} className="w-fit p-0">
         <div className="border border-lake-blue">
           <div className="flex flex-col items-start divide-y divide-lake-blue">
             <Link
-              className="w-full px-4 py-2 text-sm uppercase text-lake-blue hover:bg-lake-blue hover:text-white"
-              href="/my-lake"
+              className="inline-flex w-full items-center justify-start gap-2 px-4 py-2 text-sm uppercase text-lake-blue hover:bg-lake-blue hover:text-white"
+              href="/my-lake/new-memory"
             >
-              my lake
+              <PlusCircleIcon size={14} />
+              new memory
             </Link>
             <Link
-              className="w-full px-4 py-2 text-sm uppercase text-lake-blue hover:bg-lake-blue hover:text-white"
+              className="inline-flex w-full items-center justify-start gap-2 px-4 py-2 text-sm uppercase text-lake-blue hover:bg-lake-blue hover:text-white"
+              href="/my-lake"
+            >
+              <ShellIcon size={14} /> my lake
+            </Link>
+            <Link
+              className="inline-flex w-full items-center justify-start gap-2 px-4 py-2 text-sm uppercase text-lake-blue hover:bg-lake-blue hover:text-white"
               href="/my-lake/overview"
             >
-              overview
+              <CogIcon size={14} /> overview
             </Link>
             <button
-              className="w-full px-4 py-2 text-left text-sm uppercase text-lake-blue hover:bg-lake-blue hover:text-white"
+              className="inline-flex w-full items-center justify-start gap-2 px-4 py-2 text-right text-sm uppercase text-lake-blue hover:bg-lake-blue hover:text-white"
               onClick={() => signOut()}
             >
-              logout
+              <LogOutIcon size={14} /> logout
             </button>
           </div>
         </div>
