@@ -3,6 +3,7 @@ import { MemoriesTable, insertMemorySchema } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { and, count, eq, lte, or } from "drizzle-orm";
 import { CreateMemoryType } from "../(dashboard)/my-lake/new-memory/schema";
+import { generateNotificationDate } from "@/lib/utils";
 
 export const memories = {
   query: {
@@ -95,15 +96,56 @@ export const memories = {
     createMemory: async (formData: CreateMemoryType) => {
       "use server";
       const user = await currentUser();
-      console.log(user?.id);
 
       if (!user?.id) throw new Error("You don't have access to this resource");
       if (!formData)
         throw new Error("Failed to create memory. Form Data Missing.");
 
+      let notificationDate;
+
+      if (formData.reminderType === "at") {
+        if (!formData.specificDate) {
+          throw new Error("Missing the date");
+        }
+        notificationDate = formData.specificDate;
+      }
+      if (formData.reminderType === "random") {
+        notificationDate = generateNotificationDate({ type: "random" });
+      }
+      if (formData.reminderType === "randomDay") {
+        if (!formData.month || !formData.year) {
+          throw new Error("Missing month or year to randomize a day");
+        }
+        notificationDate = generateNotificationDate({
+          type: "randomDay",
+          month: formData.month,
+          year: formData.year,
+        });
+      }
+      if (formData.reminderType === "randomMonth") {
+        if (!formData.day || !formData.year) {
+          throw new Error("Missing day or year to randomize a month");
+        }
+        notificationDate = generateNotificationDate({
+          type: "randomMonth",
+          day: formData.day,
+          year: formData.year,
+        });
+      }
+      if (formData.reminderType === "randomYear") {
+        if (!formData.day || !formData.month) {
+          throw new Error("Missing day or month to randomize a year");
+        }
+        notificationDate = generateNotificationDate({
+          type: "randomYear",
+          day: formData.day,
+          month: formData.month,
+        });
+      }
+
       const validatedFields = insertMemorySchema.safeParse({
         user_id: user.id,
-        notify_date: formData.reminderType === "at" && formData.specificDate,
+        notify_date: notificationDate,
         shared_with_email: formData.sharedWith || undefined,
         ...formData,
       });
@@ -117,7 +159,8 @@ export const memories = {
 
       const createdMemory = await db
         .insert(MemoriesTable)
-        .values(validatedFields.data);
+        .values(validatedFields.data)
+        .returning({ id: MemoriesTable.id });
 
       return createdMemory;
     },
