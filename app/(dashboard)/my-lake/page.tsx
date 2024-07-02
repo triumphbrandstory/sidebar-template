@@ -9,11 +9,10 @@ import Shell4 from "@/assets/shells/shell4.png";
 import Shell5 from "@/assets/shells/shell5.png";
 import Shell6 from "@/assets/shells/shell6.png";
 import { MyLakeLeftColumn } from "../_components/my-lake/left-column";
-import { data } from "@/app/data";
+// import { data } from "@/app/data";
 
 export default async function MyLakePage() {
-  const memories = await data.memories.query.getAllUserMemories();
-  console.log({ memories });
+  // const memories = await data.memories.query.getAllUserMemories();
 
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
