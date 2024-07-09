@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { MyLakeLeftColumn } from "../../_components/my-lake/left-column";
 import { UserMenuBase } from "../../_components/user-menu-base";
@@ -6,7 +7,7 @@ import Link from "next/link";
 
 export default function DeleteAccountPage() {
   async function deleteAccount() {
-    "use server";
+    // "use server";
     // TODO: delete user account and logout
     console.log("Not deleted yet");
   }
@@ -26,14 +27,21 @@ export default function DeleteAccountPage() {
               <div className="flex flex-col items-center gap-4 px-10 py-6">
                 <p className="text-lake-blue">
                   Are you sure you want to delete your account? <br />
-                  All your data will be lost forever.
+                  Your data will be lost forever.
                 </p>
-                <Button type="submit" variant="primary" className="self-center">
-                  yes
-                </Button>
-                <Button asChild className="self-center">
-                  <Link href="/my-lake/overview">nevermind</Link>
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="primary"
+                    // type="submit"
+                    // TODO: delete account and redirect to home signed out
+                    onClick={() => alert("Not hooked up yet")}
+                  >
+                    yes
+                  </Button>
+                  <Button asChild>
+                    <Link href="/my-lake/overview">nevermind</Link>
+                  </Button>
+                </div>
               </div>
             </form>
           </FormWrapper>
