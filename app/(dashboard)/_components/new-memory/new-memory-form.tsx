@@ -348,6 +348,7 @@ export function NewMemoryForm({
                       <input
                         {...field}
                         type="email"
+                        placeholder="friend@email.com"
                         className="h-9 bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
                       />
                       <FormMessage />

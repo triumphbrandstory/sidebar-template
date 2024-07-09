@@ -2,10 +2,10 @@
 import { FormWrapper } from "@/app/(landing)/_components/form-wrapper/form-wrapper";
 import { HomeLeftColumn } from "@/app/(landing)/_components/home/left-column";
 import { AuthenticateButtons } from "@/components/AuthenticateButtons";
-import { GoogleSignInButton } from "@/components/GoogleSignInButton";
+import { GoogleSignInOrSignUpButton } from "@/components/GoogleSignInOrSignUpButton";
 import { Button } from "@/components/ui/button";
 import { useSignIn } from "@clerk/nextjs";
-import { isClerkAPIResponseError } from "@clerk/nextjs/errors"
+import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
@@ -71,7 +71,7 @@ export default function LogInClerkPage() {
               className="flex flex-col items-center gap-4 px-10 py-6"
               id="form-content"
             >
-              <GoogleSignInButton />
+              <GoogleSignInOrSignUpButton />
               <span className="text-lake-blue">or</span>
               <form
                 onSubmit={(e) => handleSubmit(e)}
