@@ -18,7 +18,7 @@ export default async function MyLakePage() {
         <div className="absolute mb-2 mr-12 mt-12 self-end">
           <UserMenuBase />
         </div>
-        <div className="relative grid max-h-[90vh] min-h-screen w-full place-content-center overflow-hidden border-b-2 border-b-lake-blue">
+        <div className="relative grid min-h-[85vh] w-full place-content-center overflow-hidden border-b-2 border-b-lake-blue">
           <h2 className="text-center text-[20vw] font-medium uppercase leading-none text-lake-blue md:text-[100px]">
             Memory
             <br />
@@ -26,8 +26,7 @@ export default async function MyLakePage() {
           </h2>
           <Shells />
         </div>
-
-        <div className="z-10 h-[20vh] w-full self-start border-t-2 border-lake-blue bg-white px-12 py-12">
+        <div className="h-[10vh] w-full self-start border-t-2 border-lake-blue bg-white px-12 py-12">
           <Button asChild>
             <Link href={`/my-lake/memory/2`}>see what emerges</Link>
           </Button>
