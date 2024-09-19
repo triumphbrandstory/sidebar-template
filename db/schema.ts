@@ -24,7 +24,7 @@ export const UsersTable = createTable(
     created_at: timestamp("created_at", {
       withTimezone: true,
       mode: "date",
-    }),
+    }).defaultNow(),
     email: text("email").unique().notNull(),
     first_name: varchar("first_name", { length: 255 }).notNull(),
     last_name: varchar("last_name", { length: 255 }).notNull(),
