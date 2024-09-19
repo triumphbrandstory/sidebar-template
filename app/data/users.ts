@@ -1,5 +1,6 @@
 import { db } from "@/db/drizzle";
 import {
+  MemoriesTable,
   UserPreferencesTable,
   UsersTable,
   insertUserUserType,
@@ -29,6 +30,33 @@ export const users = {
           .insert(UserPreferencesTable)
           .values({ user_id: user.clerk_id });
       });
+    },
+    deleteUser: async (userId: string) => {
+      const userExists = await db
+        .select()
+        .from(UsersTable)
+        .where(
+          or(eq(UsersTable.clerk_id, userId), eq(UsersTable.email, userId)),
+        );
+
+      // TODO: make sure user can only delete themselves
+      const userCanBeDeleted = false;
+
+      // create transaction to delete in order
+      // 1. user preferences
+      // 2. memories
+      // 3. user
+      if (userExists && userCanBeDeleted) {
+        return await db.transaction(async (tx) => {
+          await tx
+            .delete(UserPreferencesTable)
+            .where(eq(UserPreferencesTable.user_id, userId));
+          await tx
+            .delete(MemoriesTable)
+            .where(eq(MemoriesTable.user_id, userId));
+          await tx.delete(UsersTable).where(eq(UsersTable.clerk_id, userId));
+        });
+      }
     },
   },
 };
