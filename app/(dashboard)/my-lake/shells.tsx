@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 export function Shells() {
   const shellsContainerRef = useRef<HTMLDivElement | null>(null);
   return (
-    <div ref={shellsContainerRef} className="absolute inset-0 z-10 w-full">
+    <div ref={shellsContainerRef} className="absolute inset-0 w-full">
       <Shell
         src="/shells/shell1.png"
         alt="memory shell"
@@ -22,14 +22,14 @@ export function Shells() {
         className="w-36 md:w-56"
         top={"0%"}
         left={"55%"}
-        rotate={"4deg"}
+        rotate={"15deg"}
         shellsContainerRef={shellsContainerRef}
       />
       <Shell
         src="/shells/shell3.png"
         alt="memory shell"
         className="w-36 md:w-56"
-        top={"0%"}
+        top={"15%"}
         left={"55%"}
         rotate={"4deg"}
         shellsContainerRef={shellsContainerRef}
@@ -38,7 +38,7 @@ export function Shells() {
         src="/shells/shell4.png"
         alt="memory shell"
         className="w-36 md:w-56"
-        top={"0%"}
+        top={"30%"}
         left={"55%"}
         rotate={"4deg"}
         shellsContainerRef={shellsContainerRef}
@@ -95,7 +95,6 @@ function Shell({
       dragConstraints={shellsContainerRef}
       // value from 0 to 1
       dragElastic={1}
-      // boolean
       dragMomentum={true}
       src={props.src}
       alt={props.alt}

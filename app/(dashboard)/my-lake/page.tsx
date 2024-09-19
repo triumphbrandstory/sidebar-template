@@ -15,7 +15,7 @@ export default async function MyLakePage() {
 
       {/* right column */}
       <div className="relative flex h-screen w-full flex-col items-center">
-        <div className="absolute mb-2 mr-12 mt-12 self-end">
+        <div className="absolute mb-2 mr-12 mt-12 self-end z-[9999]">
           <UserMenuBase />
         </div>
         <div className="relative grid min-h-[85vh] w-full place-content-center overflow-hidden border-b-2 border-b-lake-blue">
