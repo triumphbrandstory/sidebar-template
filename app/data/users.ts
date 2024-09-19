@@ -10,8 +10,10 @@ import { eq, or } from "drizzle-orm";
 export const users = {
   mutation: {
     createUser: async (user: insertUserUserType) => {
-      const userExists = await db
-        .select()
+      const [userExists] = await db
+        .selectDistinct({
+          clerk_id: UsersTable.clerk_id,
+        })
         .from(UsersTable)
         .where(
           or(
@@ -20,16 +22,16 @@ export const users = {
           ),
         );
 
-      if (userExists.length > 0) {
+      if (userExists) {
         throw new Error("User already exists");
       }
 
-      return await db.transaction(async (tx) => {
-        await tx.insert(UsersTable).values(user);
-        await tx
+      return Promise.all([
+        await db.insert(UsersTable).values(user),
+        await db
           .insert(UserPreferencesTable)
-          .values({ user_id: user.clerk_id });
-      });
+          .values({ user_id: user.clerk_id }),
+      ]);
     },
     deleteUser: async (userId: string) => {
       const userExists = await db
@@ -40,6 +42,7 @@ export const users = {
         );
 
       // TODO: make sure user can only delete themselves
+      // TODO: webhook to delete user from clerk or vice-versa
       const userCanBeDeleted = false;
 
       // create transaction to delete in order

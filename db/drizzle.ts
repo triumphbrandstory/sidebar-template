@@ -19,4 +19,4 @@ const sql =
   );
 if (process.env.NODE_ENV !== "production") globalForDb.sql = sql;
 
-export const db = drizzle(sql, { schema });
+export const db = drizzle(sql, { schema, logger: process.env.NODE_ENV === "development" ? true : false });
