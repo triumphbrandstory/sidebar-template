@@ -258,7 +258,7 @@ export const memories = {
         };
       }
 
-      const createdMemory = await db
+      const [createdMemory] = await db
         .insert(MemoriesTable)
         .values(validatedFields.data)
         .returning({ id: MemoriesTable.id });

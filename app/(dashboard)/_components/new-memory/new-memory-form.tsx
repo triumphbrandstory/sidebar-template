@@ -24,7 +24,7 @@ type NewMemoryFormProps = {
   createMemory: (formData: CreateMemoryType) => Promise<
     | {
         id: string;
-      }[]
+      }
     | {
         errors: {
           title?: string[] | undefined;
@@ -78,7 +78,7 @@ export function NewMemoryForm({
 
   const onSubmit = form.handleSubmit(async (formData) => {
     const createdMemory = await createMemory(formData);
-    if (createdMemory && Array.isArray(createdMemory) && createdMemory[0].id) {
+    if (createdMemory && "id" in createdMemory) {
       toast({
         description: "Memory successfuly created",
       });
