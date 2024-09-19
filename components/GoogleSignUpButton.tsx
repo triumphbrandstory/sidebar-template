@@ -2,7 +2,7 @@
 import { useSignUp } from "@clerk/nextjs";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { Button } from "./ui/button";
-import { type OAuthStrategy } from "@clerk/types";
+import type { OAuthStrategy } from "@clerk/types";
 
 export function GoogleSignUpButton() {
   const { signUp } = useSignUp();
