@@ -1,6 +1,7 @@
 import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
+import { env } from "@/env";
 
 /**
  * Cache the database connection in development. This avoids creating a new connection on every HMR
@@ -14,7 +15,7 @@ const sql =
   globalForDb.sql ??
   neon(
     process.env.NODE_ENV === "development"
-      ? process.env.NEXT_PUBLIC_DATABASE_URL!
+      ? env.DATABASE_URL
       : process.env.DATABASE_URL!,
   );
 if (process.env.NODE_ENV !== "production") globalForDb.sql = sql;

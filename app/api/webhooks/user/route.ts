@@ -73,6 +73,14 @@ export async function POST(req: Request) {
   //       email: evt.data.email_addresses[0].email_address,
   //     });
   //   }
+  
+  //   TODO: For future updates
+  //   if (eventType === "user.deleted") {
+  //     console.log("deleted user: ", {
+  //       id: evt.data.id,
+  //       email: evt.data.email_addresses[0].email_address,
+  //     });
+  //   }
 
   return new Response("", { status: 200 });
 }
