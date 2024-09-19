@@ -10,7 +10,6 @@ import { eq, or } from "drizzle-orm";
 export const users = {
   mutation: {
     createUser: async (user: insertUserUserType) => {
-      "use server"
       const [userExists] = await db
         .selectDistinct({
           clerk_id: UsersTable.clerk_id,
@@ -27,14 +26,12 @@ export const users = {
         throw new Error("User already exists");
       }
 
-      Promise.all([
+      return Promise.all([
         await db.insert(UsersTable).values(user),
         await db
           .insert(UserPreferencesTable)
           .values({ user_id: user.clerk_id }),
       ]);
-
-      return true
     },
     deleteUser: async (userId: string) => {
       const userExists = await db

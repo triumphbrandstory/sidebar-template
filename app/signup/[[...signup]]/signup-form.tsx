@@ -2,17 +2,12 @@
 import { FormWrapper } from "@/app/(landing)/_components/form-wrapper/form-wrapper";
 import { GoogleSignInOrSignUpButton } from "@/components/GoogleSignInOrSignUpButton";
 import { Button } from "@/components/ui/button";
-import { insertUserUserType } from "@/db/schema";
 import { useSignUp } from "@clerk/nextjs";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function SignUpForm({
-  createUser,
-}: {
-  createUser: (user: insertUserUserType) => Promise<boolean>;
-}) {
+export function SignUpForm() {
   const { isLoaded, signUp, setActive } = useSignUp();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
