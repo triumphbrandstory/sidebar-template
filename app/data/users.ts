@@ -1,5 +1,9 @@
 import { db } from "@/db/drizzle";
-import { UsersTable, insertUserUserType } from "@/db/schema";
+import {
+  UserPreferencesTable,
+  UsersTable,
+  insertUserUserType,
+} from "@/db/schema";
 import { eq, or } from "drizzle-orm";
 
 export const users = {
@@ -14,12 +18,17 @@ export const users = {
             eq(UsersTable.email, user.email),
           ),
         );
-      if (userExists) {
-        console.info("User already exists");
-        return;
+
+      if (userExists.length > 0) {
+        throw new Error("User already exists");
       }
 
-      return await db.insert(UsersTable).values(user);
+      return await db.transaction(async (tx) => {
+        await tx.insert(UsersTable).values(user);
+        await tx
+          .insert(UserPreferencesTable)
+          .values({ user_id: user.clerk_id });
+      });
     },
   },
 };

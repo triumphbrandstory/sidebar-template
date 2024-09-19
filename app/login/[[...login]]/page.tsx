@@ -59,7 +59,6 @@ export default function LogInClerkPage() {
   // Display a form to capture the user's email and password
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
-      {/* <UserButton /> */}
       {/* left column */}
       <HomeLeftColumn />
       {/* right column */}
