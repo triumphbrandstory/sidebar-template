@@ -1,13 +1,16 @@
 "use client";
 import { useState } from "react";
 import { useSignUp } from "@clerk/nextjs";
-import { isClerkAPIResponseError } from "@clerk/nextjs/errors"
+import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { useRouter } from "next/navigation";
 import { FormWrapper } from "@/app/(landing)/_components/form-wrapper/form-wrapper";
 import { Button } from "@/components/ui/button";
 import { GoogleSignUpButton } from "@/components/GoogleSignUpButton";
 import { HomeLeftColumn } from "@/app/(landing)/_components/home/left-column";
 import { AuthenticateButtons } from "@/components/AuthenticateButtons";
+import { UserPreferencesTable, UsersTable } from "@/db/schema";
+import { eq, or } from "drizzle-orm";
+import { db } from "@/db/drizzle";
 
 export default function SignUpPage() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -27,6 +30,7 @@ export default function SignUpPage() {
 
     // Start the sign-up process using the email and password provided
     try {
+      setError(null);
       await signUp.create({
         firstName,
         lastName,
@@ -72,9 +76,46 @@ export default function SignUpPage() {
       // Check the status to see if it is complete
       // If complete, the user has been created -- set the session active
       if (completeSignUp.status === "complete") {
+        if (
+          !completeSignUp.createdUserId ||
+          !completeSignUp.firstName ||
+          !completeSignUp.lastName ||
+          !completeSignUp.emailAddress
+        ) {
+          setError("Missing fields");
+          return;
+        }
+
+        const [userExists] = await db
+          .select()
+          .from(UsersTable)
+          .where(
+            or(
+              eq(UsersTable.clerk_id, completeSignUp.createdUserId),
+              eq(UsersTable.email, completeSignUp.emailAddress),
+            ),
+          );
+
+        if (userExists) {
+          setError("User already exists");
+          return;
+        }
+
+        await db.insert(UsersTable).values({
+          clerk_id: completeSignUp.createdUserId,
+          first_name: completeSignUp.firstName,
+          last_name: completeSignUp.lastName,
+          email: completeSignUp.emailAddress,
+        });
+
+        await db.insert(UserPreferencesTable).values({
+          user_id: completeSignUp.createdUserId,
+          app_notification: true,
+          email_notification: false,
+        });
+
         await setActive({ session: completeSignUp.createdSessionId });
-        // TODO: add user in db with user.id
-        // Redirect the user to a post sign-up route
+
         router.push("/my-lake");
       }
     } catch (err: any) {

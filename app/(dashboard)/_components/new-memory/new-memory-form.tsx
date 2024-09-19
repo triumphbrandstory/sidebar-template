@@ -16,13 +16,15 @@ import {
   CreateMemoryType,
   createMemorySchema,
 } from "../../my-lake/new-memory/schema";
-import { NeonHttpQueryResult } from "drizzle-orm/neon-http";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 type NewMemoryFormProps = {
   memoryCount: number;
   createMemory: (formData: CreateMemoryType) => Promise<
-    | NeonHttpQueryResult<never>
+    | {
+        id: string;
+      }
     | {
         errors: {
           title?: string[] | undefined;
@@ -47,12 +49,15 @@ export function NewMemoryForm({
   createMemory,
   memoryCount,
 }: NewMemoryFormProps) {
+  const router = useRouter();
   const { toast } = useToast();
   const form = useForm<CreateMemoryType>({
     resolver: zodResolver(createMemorySchema),
     defaultValues: {
       title: "",
       time: "",
+      location_1: "",
+      location_2: "",
       description: "",
       reminderType: "random",
       specificDate: undefined,
@@ -73,11 +78,17 @@ export function NewMemoryForm({
 
   const onSubmit = form.handleSubmit(async (formData) => {
     const createdMemory = await createMemory(formData);
-    if (createdMemory) {
+    if (createdMemory && "id" in createdMemory) {
       toast({
         description: "Memory successfuly created",
       });
       form.reset();
+      router.refresh();
+    } else {
+      toast({
+        description:
+          "Sorry, we failed to save your memory. We'll try to do better next time",
+      });
     }
   });
 
@@ -156,7 +167,8 @@ export function NewMemoryForm({
                     <input
                       {...field}
                       type="text"
-                      className="h-9 bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
+                      placeholder="Maputo"
+                      className="h-9 bg-lake-gray-input px-2 text-lake-blue placeholder:text-lake-blue/50 focus:outline-none"
                     />
                     <FormMessage />
                   </div>
@@ -170,7 +182,8 @@ export function NewMemoryForm({
                     <input
                       {...field}
                       type="text"
-                      className="h-9 flex-grow bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
+                      placeholder="Moçambique"
+                      className="h-9 flex-grow bg-lake-gray-input px-2 text-lake-blue placeholder:text-lake-blue/50 focus:outline-none"
                     />
                     <FormMessage />
                   </div>
@@ -335,6 +348,7 @@ export function NewMemoryForm({
                       <input
                         {...field}
                         type="email"
+                        placeholder="friend@email.com"
                         className="h-9 bg-lake-gray-input px-1 text-lake-blue focus:outline-none"
                       />
                       <FormMessage />

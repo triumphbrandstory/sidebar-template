@@ -53,7 +53,7 @@ export function UserMenuBase() {
             </Link>
             <button
               className="inline-flex w-full items-center justify-start gap-2 px-4 py-2 text-right text-sm uppercase text-lake-blue hover:bg-lake-blue hover:text-white"
-              onClick={() => signOut()}
+              onClick={() => signOut({redirectUrl: '/'})}
             >
               <LogOutIcon size={14} /> logout
             </button>
