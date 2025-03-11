@@ -7,13 +7,14 @@ import * as schema from "./schema";
  * update.
  */
 const globalForDb = globalThis as unknown as {
-  sql: NeonQueryFunction<false, false> | undefined;
+  postgres: NeonQueryFunction<false, false> | undefined;
 };
 
-const sql = globalForDb.sql ?? neon(process.env.DATABASE_URL!);
-if (process.env.NODE_ENV !== "production") globalForDb.sql = sql;
+const postgres = globalForDb.postgres ?? neon(process.env.DATABASE_URL!);
 
-export const db = drizzle(sql, {
+if (process.env.NODE_ENV !== "production") globalForDb.postgres = postgres;
+
+export const db = drizzle(postgres, {
   schema,
   logger: process.env.NODE_ENV === "development" ? true : false,
 });
