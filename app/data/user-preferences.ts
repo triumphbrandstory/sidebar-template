@@ -113,13 +113,12 @@ export const user_preferences = {
         unseenMemoriesCount,
         seenMemoriesCount,
         memoriesSharedByUserInLast30DaysCount,
-        // TODO: remove default false when handling default user_preferences values on user creation
-        appNotification: user_preferences?.app_notification || false,
-        emailNotification: user_preferences?.email_notification || false,
+        appNotification: user_preferences?.app_notification,
+        emailNotification: user_preferences?.email_notification,
       };
     },
   },
-  mutation: {
+  mutate: {
     createUserPreference: async (data: { user_id: string }) => {
       const user_preferences = await db.insert(UserPreferencesTable).values({
         user_id: data.user_id,
@@ -129,7 +128,6 @@ export const user_preferences = {
 
       return user_preferences;
     },
-    // TODO: update user preferences on toggle
     updateUserPreferences: async (data: {
       field: "app_notification" | "email_notification";
       value: boolean;

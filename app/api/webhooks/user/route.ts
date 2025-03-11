@@ -1,7 +1,7 @@
-import { Webhook } from "svix";
-import { headers } from "next/headers";
-import { WebhookEvent } from "@clerk/nextjs/server";
 import { data } from "@/app/data";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { headers } from "next/headers";
+import { Webhook } from "svix";
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
@@ -52,14 +52,14 @@ export async function POST(req: Request) {
 
   if (eventType === "user.created") {
     try {
-      await data.users.mutation.createUser({
+      await data.users.mutate.createUser({
         clerk_id: evt.data.id,
         first_name:
           evt.data.first_name || evt.data.email_addresses[0].email_address,
         last_name: evt.data.last_name || "",
         email: evt.data.email_addresses[0].email_address,
       });
-      await data.user_preferences.mutation.createUserPreference({
+      await data.user_preferences.mutate.createUserPreference({
         user_id: evt.data.id,
       });
       return new Response("User successfully created", { status: 201 });

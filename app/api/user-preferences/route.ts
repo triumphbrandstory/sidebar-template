@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await data.user_preferences.mutation.updateUserPreferences({
+    await data.user_preferences.mutate.updateUserPreferences({
       field,
       value,
     });

@@ -5,10 +5,11 @@ import {
   UsersTable,
   insertUserUserType,
 } from "@/db/schema";
-import { eq, or } from "drizzle-orm";
+import { currentUser } from "@clerk/nextjs/server";
+import { and, eq, or } from "drizzle-orm";
 
 export const users = {
-  mutation: {
+  mutate: {
     createUser: async (user: insertUserUserType) => {
       const [userExists] = await db
         .selectDistinct({
@@ -34,22 +35,26 @@ export const users = {
       ]);
     },
     deleteUser: async (userId: string) => {
-      const userExists = await db
+      const user = await currentUser();
+
+      if (!user?.id) throw new Error("You don't have access to this resource");
+
+      const userExistsAndCanBeDeleted = await db
         .select()
         .from(UsersTable)
         .where(
-          or(eq(UsersTable.clerk_id, userId), eq(UsersTable.email, userId)),
+          and(
+            eq(UsersTable.clerk_id, userId),
+            eq(UsersTable.clerk_id, user.id),
+          ),
         );
 
-      // TODO: make sure user can only delete themselves
       // TODO: webhook to delete user from clerk or vice-versa
-      const userCanBeDeleted = false;
+      if (!userExistsAndCanBeDeleted)
+        throw new Error("You don't have access to delete this user");
 
-      // create transaction to delete in order
-      // 1. user preferences
-      // 2. memories
-      // 3. user
-      if (userExists && userCanBeDeleted) {
+      // transaction to delete in order (1) user preferences, (2) memories, (3) user
+      if (userExistsAndCanBeDeleted) {
         return await db.transaction(async (tx) => {
           await tx
             .delete(UserPreferencesTable)

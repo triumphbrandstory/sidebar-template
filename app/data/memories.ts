@@ -1,10 +1,10 @@
 import { db } from "@/db/drizzle";
 import { MemoriesTable, insertMemorySchema } from "@/db/schema";
-import { currentUser } from "@clerk/nextjs/server";
-import { and, count, eq, gte, isNotNull, lte, ne, or } from "drizzle-orm";
-import { CreateMemoryType } from "../(dashboard)/my-lake/new-memory/schema";
 import { generateNotificationDate } from "@/lib/utils";
+import { currentUser } from "@clerk/nextjs/server";
 import { subDays } from "date-fns";
+import { and, count, eq, gte, isNotNull, lte, or } from "drizzle-orm";
+import { CreateMemoryType } from "../(dashboard)/my-lake/new-memory/schema";
 
 export const memories = {
   query: {
@@ -52,9 +52,7 @@ export const memories = {
       if (!user?.id || !userEmail)
         throw new Error("You don't have access to this resource");
 
-      // select memories created by the user,
-      // that were shared with the user,
-      // that were not yet seen
+      // select memories: (1) created by the user, (2) that were shared with the user, (3) that were not yet seen
       const byUserMemories = await db
         .select()
         .from(MemoriesTable)
@@ -187,7 +185,7 @@ export const memories = {
     // instead of getting all the memories from the db, just get one that hasn't surfaced yet
     getSingleRandomUnseenUserMemory: async () => {},
   },
-  mutation: {
+  mutate: {
     createMemory: async (formData: CreateMemoryType) => {
       "use server";
       const user = await currentUser();

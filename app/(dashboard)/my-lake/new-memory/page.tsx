@@ -1,6 +1,6 @@
+import { data } from "@/app/data";
 import { MyLakeLeftColumn } from "../../_components/my-lake/left-column";
 import { NewMemoryForm } from "../../_components/new-memory/new-memory-form";
-import { data } from "@/app/data";
 
 export default async function NewMemoryPage() {
   const createdMemoriesCount =
@@ -13,7 +13,7 @@ export default async function NewMemoryPage() {
       {/* right column */}
       <NewMemoryForm
         memoryCount={createdMemoriesCount}
-        createMemory={data.memories.mutation.createMemory}
+        createMemory={data.memories.mutate.createMemory}
       />
     </div>
   );
