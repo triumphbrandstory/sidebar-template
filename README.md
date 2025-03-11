@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Memory Lake
 
-## Getting Started
+Memory Lake is a digital repository for personal mementos, designed to help you preserve and revisit your cherished memories. Just as a data lake stores and processes various forms of data, Memory Lake serves as a centralized space for your personal memories.
 
-First, run the development server:
+## About Memory Lake
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+In computer science, a data lake is a centralized repository designed to store, process, and secure large amounts of structured, semistructured, and unstructured data. It can store data in its native format and process any variety of it.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Memory Lake draws inspiration from this concept, recognizing that data lakes and our memories share things in common — both data and mementos can emerge depending on the input or moment we live in the present.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+If memories of the past meet us through what we experience in the present, Memory Lake is the possibility of getting in touch with endearing moments more often.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+> "In the present if you will, in the present to continue."
+> – Francis Allÿs
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Personal Memory Repository**: Store and organize your memories in various formats
+- **Memory Retrieval**: Access your memories based on different contexts and moments
+- **Secure Storage**: Keep your personal mementos safe and private
+- **Intuitive Interface**: Easy-to-use design for seamless memory preservation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technology
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Memory Lake is built using Next.js, a React framework that enables server-side rendering and generating static websites. The application leverages modern web technologies to provide a smooth and responsive user experience.
 
-## Deploy on Vercel
+## Created By
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Memory Lake is developed by a creative duo based in Brazil, passionate about the intersection of technology and human experience.
