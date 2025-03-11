@@ -1,8 +1,11 @@
 "use client";
+import waterDrop from "@/assets/water-drop.svg";
+import { Switch } from "@/components/ui/switch";
+import { useToast } from "@/components/ui/use-toast";
 import { formatDateToShort } from "@/lib/utils";
 import { useClerk } from "@clerk/nextjs";
 import Image from "next/image";
-import waterDrop from "@/assets/water-drop.svg";
+import { useState, useTransition } from "react";
 
 type OverviewFormProps = {
   memoriesCount: number;
@@ -22,6 +25,71 @@ export function OverviewForm({
   emailNotification,
 }: OverviewFormProps) {
   const { user } = useClerk();
+  const { toast } = useToast();
+  const [isAppNotificationPending, startAppNotificationTransition] =
+    useTransition();
+  const [isEmailNotificationPending, startEmailNotificationTransition] =
+    useTransition();
+  const [appNotificationState, setAppNotificationState] = useState<boolean>(
+    appNotification || false,
+  );
+  const [emailNotificationState, setEmailNotificationState] = useState<boolean>(
+    emailNotification || false,
+  );
+
+  const handleNotificationChange = async (
+    field: "app_notification" | "email_notification",
+    value: boolean,
+  ) => {
+    try {
+      // optimistic update
+      if (field === "app_notification") {
+        setAppNotificationState(value);
+      } else {
+        setEmailNotificationState(value);
+      }
+
+      const formData = new FormData();
+      formData.append("field", field);
+      formData.append("value", value.toString());
+
+      const startTransition =
+        field === "app_notification"
+          ? startAppNotificationTransition
+          : startEmailNotificationTransition;
+
+      startTransition(async () => {
+        const response = await fetch("/api/user-preferences", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to update preferences");
+        }
+      });
+
+      toast({
+        title: "Preferences updated",
+        description: `${field === "app_notification" ? "Desktop" : "Email"} notifications ${value ? "enabled" : "disabled"}.`,
+      });
+    } catch (error) {
+      console.error("Failed to update preferences:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update notification preferences.",
+        variant: "destructive",
+      });
+
+      // revert optimistic update on error
+      if (field === "app_notification") {
+        setAppNotificationState(!value);
+      } else {
+        setEmailNotificationState(!value);
+      }
+    }
+  };
+
   return (
     <div
       className="flex h-full w-full flex-col justify-start overflow-y-visible sm:overflow-y-auto"
@@ -78,27 +146,23 @@ export function OverviewForm({
         </h4>
         <h5 className="col-start-2 uppercase">via desktop</h5>
         <label className="relative col-start-3 inline-flex cursor-pointer items-center">
-          <input
-            type="checkbox"
-            checked={appNotification || undefined}
-            className="peer sr-only"
-            // onChange={async (e) => {
-            //   updateUserPreferences(e.target.checked)
-            // }
+          <Switch
+            checked={appNotificationState}
+            onCheckedChange={async (checked) => {
+              await handleNotificationChange("app_notification", checked);
+            }}
+            disabled={isAppNotificationPending}
           />
-          <div className="peer h-6 w-11 rounded-full border-2 border-lake-blue after:absolute after:h-5 after:w-5 after:rounded-full after:bg-lake-blue after:transition-all after:content-[''] peer-checked:bg-lake-blue peer-checked:after:translate-x-full peer-checked:after:bg-white"></div>
         </label>
         <h5 className="col-start-2 row-start-2 uppercase">via e-mail</h5>
         <label className="relative col-start-3 row-start-2 inline-flex cursor-pointer items-center">
-          <input
-            type="checkbox"
-            checked={emailNotification || undefined}
-            className="peer sr-only"
-            onChange={async (e) => {
-              // update user preferences
+          <Switch
+            checked={emailNotificationState}
+            onCheckedChange={async (checked) => {
+              await handleNotificationChange("email_notification", checked);
             }}
+            disabled={isEmailNotificationPending}
           />
-          <div className="peer h-6 w-11 rounded-full border-2 border-lake-blue after:absolute after:h-5 after:w-5 after:rounded-full after:bg-lake-blue after:transition-all after:content-[''] peer-checked:bg-lake-blue peer-checked:after:translate-x-full peer-checked:after:bg-white"></div>
         </label>
       </div>
       <div
@@ -113,16 +177,12 @@ export function OverviewForm({
             {user.primaryEmailAddress?.emailAddress}
           </h5>
         )}
-        <span className="relative col-start-3 inline-flex cursor-pointer text-xs uppercase text-lake-gray">
-          change
-        </span>
         <h4 className="col-span-1 row-start-2 pl-6 font-semibold uppercase">
           password
         </h4>
-        <h5 className="col-start-2 uppercase">last changed: june 26th, 2023</h5>
-        <span className="relative col-start-3 inline-flex cursor-pointer text-xs uppercase text-lake-gray">
-          change
-        </span>
+        <h5 className="col-start-2 uppercase">
+          last changed: {user?.updatedAt && formatDateToShort(user?.updatedAt)}
+        </h5>
       </div>
     </div>
   );
