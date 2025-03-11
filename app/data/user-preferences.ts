@@ -134,8 +134,6 @@ export const user_preferences = {
       field: "app_notification" | "email_notification";
       value: boolean;
     }) => {
-      console.log(data);
-
       const user = await currentUser();
 
       if (!user?.id) throw new Error("You don't have access to this resource");

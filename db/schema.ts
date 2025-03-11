@@ -112,7 +112,7 @@ export const MemoriesTableRelations = relations(MemoriesTable, ({ one }) => {
 
 // Drizzle-zod schema + type inference
 export const insertUserSchema = createInsertSchema(UsersTable, {
-  email: (schema) => schema.email.email(),
+  email: (schema) => schema.email(),
 });
 export type insertUserUserType = z.infer<typeof insertUserSchema>;
 

@@ -27,12 +27,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await data.user_preferences.mutation.updateUserPreferences({
+    await data.user_preferences.mutation.updateUserPreferences({
       field,
       value,
     });
-
-    console.log("result", result);
 
     return NextResponse.json({ success: true });
   } catch (error) {
