@@ -59,7 +59,10 @@ export async function POST(req: Request) {
         last_name: evt.data.last_name || "",
         email: evt.data.email_addresses[0].email_address,
       });
-      return new Response("User successfully created", {status: 201})
+      await data.user_preferences.mutation.createUserPreference({
+        user_id: evt.data.id,
+      });
+      return new Response("User successfully created", { status: 201 });
     } catch (error) {
       return new Response("Error creating user", { status: 400 });
     }
@@ -73,7 +76,7 @@ export async function POST(req: Request) {
   //       email: evt.data.email_addresses[0].email_address,
   //     });
   //   }
-  
+
   //   TODO: For future updates
   //   if (eventType === "user.deleted") {
   //     console.log("deleted user: ", {

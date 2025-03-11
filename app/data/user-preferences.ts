@@ -120,6 +120,15 @@ export const user_preferences = {
     },
   },
   mutation: {
+    createUserPreference: async (data: { user_id: string }) => {
+      const user_preferences = await db.insert(UserPreferencesTable).values({
+        user_id: data.user_id,
+        app_notification: true,
+        email_notification: true,
+      });
+
+      return user_preferences;
+    },
     // TODO: update user preferences on toggle
     updateUserPreferences: async (data: {
       field: "app_notification" | "email_notification";
