@@ -27,10 +27,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await data.user_preferences.mutate.updateUserPreferences({
-      field,
-      value,
-    });
+    const updatedUserPreferences =
+      await data.user_preferences.mutate.updateUserPreferences({
+        field,
+        value,
+      });
+
+    if (!updatedUserPreferences?.id) {
+      return NextResponse.json(
+        { error: "Failed to update user preferences" },
+        { status: 500 },
+      );
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -140,17 +140,19 @@ export const user_preferences = {
         const user_preferences = await db
           .update(UserPreferencesTable)
           .set({ app_notification: data.value })
-          .where(eq(UserPreferencesTable.user_id, user.id));
+          .where(eq(UserPreferencesTable.user_id, user.id))
+          .returning({ id: UserPreferencesTable.id });
 
-        return user_preferences;
+        return user_preferences[0];
       }
       if (data.field === "email_notification") {
         const user_preferences = await db
           .update(UserPreferencesTable)
           .set({ email_notification: data.value })
-          .where(eq(UserPreferencesTable.user_id, user.id));
+          .where(eq(UserPreferencesTable.user_id, user.id))
+          .returning({ id: UserPreferencesTable.id });
 
-        return user_preferences;
+        return user_preferences[0];
       }
     },
   },
