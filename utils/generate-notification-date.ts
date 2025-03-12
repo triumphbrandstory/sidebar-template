@@ -1,34 +1,3 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
-export function formatDateToLocal(
-  date: string | number,
-  locale: string = "en-US",
-) {
-  const dateToFormat = new Date(date);
-  const options: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  };
-  const formatter = new Intl.DateTimeFormat(locale, options);
-  return formatter.format(dateToFormat);
-}
-
-export function formatDateToShort(date: Date, locale: string = "en-US") {
-  const options: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  };
-  const formatter = new Intl.DateTimeFormat(locale, options);
-  return formatter.format(date);
-}
-
 type SpecificDate = {
   type: "at";
   date: Date;
@@ -64,7 +33,8 @@ type GenerateNotificationDateProps =
   | RandomizeYear;
 
 /**
- * @param {Object} props
+ * Generates a notification date based on the provided parameters
+ * @param props
  * @param {("at" | "random" | "randomDay" | "randomMonth" | "randomYear")} props.type
  * -- "at" - Expects a Date object as second parameter from 1 day from now to 15 years from now -> Gets the specified date from user's input
  * - "random" - Expects no aditional parameters -> Generates a date between 3 days from now and 15 years from now
