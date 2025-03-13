@@ -2,7 +2,7 @@
 import waterDrop from "@/assets/water-drop.svg";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
-import { formatDateToShort } from "@/lib/utils";
+import { formatDateToLocalShort } from "@/utils/format-date-time";
 import { useClerk } from "@clerk/nextjs";
 import Image from "next/image";
 import { useState, useTransition } from "react";
@@ -105,7 +105,7 @@ export function OverviewForm({
         id="form-date"
       >
         <h4 className="pl-6 font-semibold">registered in</h4>
-        {user?.createdAt && <h5>{formatDateToShort(user?.createdAt)}</h5>}
+        {user?.createdAt && <h5>{formatDateToLocalShort(user?.createdAt)}</h5>}
       </div>
       <div
         className="grid grid-cols-3 grid-rows-2 gap-2 border-b-2 border-b-lake-blue py-4 pb-4 uppercase text-lake-blue"
@@ -181,7 +181,8 @@ export function OverviewForm({
           password
         </h4>
         <h5 className="col-start-2 uppercase">
-          last changed: {user?.updatedAt && formatDateToShort(user?.updatedAt)}
+          last changed:{" "}
+          {user?.updatedAt && formatDateToLocalShort(user?.updatedAt)}
         </h5>
       </div>
     </div>
