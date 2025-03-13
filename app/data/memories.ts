@@ -1,6 +1,6 @@
 import { db } from "@/db/drizzle";
 import { MemoriesTable, insertMemorySchema } from "@/db/schema";
-import { generateNotificationDate } from "@/lib/utils";
+import { generateNotificationDate } from "@/utils/generate-notification-date";
 import { currentUser } from "@clerk/nextjs/server";
 import { subDays } from "date-fns";
 import { and, count, eq, gte, isNotNull, lte, or } from "drizzle-orm";
@@ -15,9 +15,15 @@ export const memories = {
       if (!user?.id || !userEmail)
         throw new Error("You don't have access to this resource");
 
-      // TODO: improve returning data from db
       return await db
-        .select()
+        .select({
+          id: MemoriesTable.id,
+          title: MemoriesTable.title,
+          date: MemoriesTable.date,
+          time: MemoriesTable.time,
+          location_1: MemoriesTable.location_1,
+          location_2: MemoriesTable.location_2,
+        })
         .from(MemoriesTable)
         .where(
           or(
@@ -25,6 +31,28 @@ export const memories = {
             eq(MemoriesTable.shared_with_email, userEmail),
           ),
         );
+    },
+    getMemoryById: async (id: string) => {
+      const user = await currentUser();
+      const userEmail = user?.emailAddresses[0].emailAddress;
+      if (!user?.id || !userEmail)
+        throw new Error("You don't have access to this resource");
+
+      const result = await db
+        .select()
+        .from(MemoriesTable)
+        .where(
+          and(
+            eq(MemoriesTable.id, id),
+            or(
+              eq(MemoriesTable.user_id, user.id),
+              eq(MemoriesTable.shared_with_email, userEmail),
+            ),
+          ),
+        )
+        .limit(1);
+
+      return result[0];
     },
     getAllUserMemoriesCount: async () => {
       const user = await currentUser();
@@ -45,16 +73,18 @@ export const memories = {
 
       return result[0].count;
     },
-    getUnseenUserMemories: async () => {
+    getSeeableUserMemories: async () => {
       const user = await currentUser();
       const userEmail = user?.emailAddresses[0].emailAddress;
 
       if (!user?.id || !userEmail)
         throw new Error("You don't have access to this resource");
 
-      // select memories: (1) created by the user, (2) that were shared with the user, (3) that were not yet seen
+      // select memories: (1) created by the user, (2) that were shared with the user, (3) that were not yet seen and (4) that CAN be seen
       const byUserMemories = await db
-        .select()
+        .select({
+          id: MemoriesTable.id,
+        })
         .from(MemoriesTable)
         .where(
           and(
@@ -65,7 +95,9 @@ export const memories = {
         );
 
       const toUserMemories = await db
-        .select()
+        .select({
+          id: MemoriesTable.id,
+        })
         .from(MemoriesTable)
         .where(
           and(
@@ -75,13 +107,13 @@ export const memories = {
           ),
         );
 
-      const allMemories = {
+      const allSeeableMemories = {
         byUser: byUserMemories,
         toUser: toUserMemories,
         total: byUserMemories.length + toUserMemories.length,
       };
-      // TODO: improve returning data from db
-      return allMemories;
+
+      return allSeeableMemories;
     },
     getCreatedUserMemoriesCount: async () => {
       const user = await currentUser();
@@ -180,10 +212,37 @@ export const memories = {
 
       return bottlesSentInLast30Days[0].count;
     },
+    getSingleRandomUnseenUserMemory: async () => {
+      const user = await currentUser();
+      const userEmail = user?.emailAddresses[0].emailAddress;
 
-    // TODO: function do grab one single memory from the unseen lake instead of getting all and making the data available
-    // instead of getting all the memories from the db, just get one that hasn't surfaced yet
-    getSingleRandomUnseenUserMemory: async () => {},
+      if (!user?.id || !userEmail)
+        throw new Error("You don't have access to this resource");
+
+      const result = await db
+        .select({
+          id: MemoriesTable.id,
+        })
+        .from(MemoriesTable)
+        .where(
+          or(
+            and(
+              eq(MemoriesTable.user_id, user.id),
+              eq(MemoriesTable.seen_by_owner, false),
+              lte(MemoriesTable.notify_date, new Date().toISOString()),
+            ),
+            and(
+              eq(MemoriesTable.shared_with_email, userEmail),
+              eq(MemoriesTable.seen_by_other, false),
+              lte(MemoriesTable.notify_date, new Date().toISOString()),
+            ),
+          ),
+        )
+        .orderBy(MemoriesTable.notify_date)
+        .limit(1);
+
+      return result[0];
+    },
   },
   mutate: {
     createMemory: async (formData: CreateMemoryType) => {
