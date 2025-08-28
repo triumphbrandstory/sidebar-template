@@ -1,7 +1,14 @@
 import { data } from "@/app/data";
+import { currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  const user = await currentUser();
+
+  if (!user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const formData = await request.formData();
     const field = formData.get("field") as
@@ -27,10 +34,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await data.user_preferences.mutate.updateUserPreferences({
-      field,
-      value,
-    });
+    const updatedUserPreferences =
+      await data.user_preferences.mutate.updateUserPreferences({
+        field,
+        value,
+      });
+
+    if (!updatedUserPreferences?.id) {
+      return NextResponse.json(
+        { error: "Failed to update user preferences" },
+        { status: 500 },
+      );
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

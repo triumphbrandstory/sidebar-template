@@ -1,15 +1,15 @@
 import { relations } from "drizzle-orm";
 import {
-  date,
-  text,
   boolean,
-  uuid,
-  varchar,
+  date,
+  index,
+  pgTableCreator,
+  text,
   time,
   timestamp,
   uniqueIndex,
-  index,
-  pgTableCreator,
+  uuid,
+  varchar,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";

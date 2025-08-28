@@ -3,11 +3,11 @@ import { UserMenuBase } from "../_components/user-menu-base";
 import { Button } from "@/components/ui/button";
 import { MyLakeLeftColumn } from "../_components/my-lake/left-column";
 import { Shells } from "./shells";
-// import { data } from "@/app/data";
+import { data } from "@/app/data";
 
 export default async function MyLakePage() {
-  // const memories = await data.memories.query.getAllUserMemories();
-
+  const seeableMemories = await data.memories.query.getSeeableUserMemories();
+  const totalMemories = await data.memories.query.getAllUserMemoriesCount();
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
       {/* left column */}
@@ -15,7 +15,7 @@ export default async function MyLakePage() {
 
       {/* right column */}
       <div className="relative flex h-screen w-full flex-col items-center">
-        <div className="absolute mb-2 mr-12 mt-12 self-end z-[9999]">
+        <div className="absolute z-[9999] mb-2 mr-12 mt-12 self-end">
           <UserMenuBase />
         </div>
         <div className="relative grid min-h-[85vh] w-full place-content-center overflow-hidden border-b-2 border-b-lake-blue">
@@ -24,7 +24,10 @@ export default async function MyLakePage() {
             <br />
             Lake
           </h2>
-          <Shells />
+          <Shells
+            seeableMemories={seeableMemories}
+            totalMemories={totalMemories}
+          />
         </div>
         <div className="h-[10vh] w-full self-start border-t-2 border-lake-blue bg-white px-12 py-12">
           <Button asChild>
