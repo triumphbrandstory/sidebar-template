@@ -23,7 +23,3 @@ If memories of the past meet us through what we experience in the present, Memor
 ## Technology
 
 Memory Lake is built using Next.js, a React framework that enables server-side rendering and generating static websites. The application leverages modern web technologies to provide a smooth and responsive user experience.
-
-## Created By
-
-Memory Lake is developed by a creative duo based in Brazil, passionate about the intersection of technology and human experience.
